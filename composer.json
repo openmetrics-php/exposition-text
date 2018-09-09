@@ -1,0 +1,47 @@
+{
+	"name": "openmetrics-php/exposition-text",
+	"description": "Implementation of the text exposition formats of OpenMetrics",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Holger Woltersdorf",
+			"email": "hw@hollo.me"
+		}
+	],
+	"require": {
+		"php": ">=7.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"OpenMetricsPhp\\Exposition\\Text\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"OpenMetricsPhp\\Exposition\\Text\\Tests\\": "tests/"
+		}
+	},
+	"require-dev": {
+		"tm/tooly-composer-script": "~1.0",
+		"hollodotme/phpunit-testdox-markdown": "~1.0.0",
+		"roave/security-advisories": "dev-master"
+	},
+	"scripts": {
+		"post-install-cmd": "Tooly\\ScriptHandler::installPharTools",
+		"post-update-cmd": "Tooly\\ScriptHandler::installPharTools"
+	},
+	"extra": {
+		"tools": {
+			"phpunit": {
+				"url": "https://phar.phpunit.de/phpunit-7.phar",
+				"only-dev": true
+			},
+			"coveralls": {
+				"url": "https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar",
+				"only-dev": true
+			}
+		}
+	}
+}

@@ -1,0 +1,34 @@
+language: php
+
+php:
+  - 7.2
+  - 7.2snapshot
+  
+git:
+  depth: 5
+  
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+branches:
+  only:
+    - master
+    - development
+    - /^feature\/.+$/
+    - /^refactoring\/.+$/
+    - /^issue\/.+$/
+
+before_script:
+ - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git checkout "$TRAVIS_BRANCH"; else git checkout -b "$TRAVIS_PULL_REQUEST_BRANCH"; fi
+ - git reset --hard "$TRAVIS_COMMIT"
+ - composer self-update
+ - mkdir -p vendor/bin
+ - mkdir -p build/logs
+ - composer install -o --prefer-dist --no-interaction
+
+script:
+ - php vendor/bin/phpunit.phar -c build/ --coverage-clover build/logs/clover.xml
+
+after_success:
+ - travis_retry php vendor/bin/coveralls.phar -v --exclude-no-stmt
