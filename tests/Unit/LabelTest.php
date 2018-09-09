@@ -133,6 +133,16 @@ final class LabelTest extends TestCase
 				'value'               => "value with\nlinebreak",
 				'expectedLabelString' => 'name="value with\nlinebreak"',
 			],
+			[
+				'name'                => 'name_with_underscore',
+				'value'               => 'value',
+				'expectedLabelString' => 'name_with_underscore="value"',
+			],
+			[
+				'name'                => 'name_with_0123',
+				'value'               => 'value',
+				'expectedLabelString' => 'name_with_0123="value"',
+			],
 		];
 	}
 
@@ -186,6 +196,36 @@ final class LabelTest extends TestCase
 				'labelString'   => 'name="value with\nlinebreak"',
 				'expectedName'  => 'name',
 				'expectedValue' => "value with\nlinebreak",
+			],
+		];
+	}
+
+	/**
+	 * @param string $labelString
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws \PHPUnit\Framework\AssertionFailedError
+	 *
+	 * @dataProvider invalidLabelStringProvider
+	 */
+	public function testThrowsExceptionForInvalidLabelStrings( string $labelString ) : void
+	{
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'Invalid label string.' );
+
+		Label::fromLabelString( $labelString );
+
+		$this->fail( 'Expected exception for invalid label string.' );
+	}
+
+	public function invalidLabelStringProvider() : array
+	{
+		return [
+			[
+				'labelString' => 'name=value',
+			],
+			[
+				'labelString' => 'name and="value"',
 			],
 		];
 	}
