@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/openmetrics-php/exposition-text.svg?branch=master)](https://travis-ci.org/openmetrics-php/exposition-text)
 [![Latest Stable Version](https://poser.pugx.org/openmetrics-php/exposition-text/v/stable)](https://packagist.org/packages/openmetrics-php/exposition-text) 
 [![Total Downloads](https://poser.pugx.org/openmetrics-php/exposition-text/downloads)](https://packagist.org/packages/openmetrics-php/exposition-text) 
-[![Coverage Status](https://coveralls.io/repos/github/openmetrics-php/exposition-text/badge.svg?branch=master)](https://coveralls.io/github/openmetrics-php/exposition-text?branch=master)
+[![codecov](https://codecov.io/gh/openmetrics-php/exposition-text/branch/master/graph/badge.svg)](https://codecov.io/gh/openmetrics-php/exposition-text)
 
 # Exposition\Text
 
