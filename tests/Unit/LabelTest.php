@@ -12,24 +12,6 @@ final class LabelTest extends TestCase
 	use EmptyStringProviding;
 
 	/**
-	 * @param string $name
-	 *
-	 * @throws \PHPUnit\Framework\AssertionFailedError
-	 * @throws InvalidArgumentException
-	 *
-	 * @dataProvider emptyStringProvider
-	 */
-	public function testThrowsExceptionForEmptyName( string $name ) : void
-	{
-		$this->expectException( InvalidArgumentException::class );
-		$this->expectExceptionMessage( 'Label name cannot be empty.' );
-
-		Label::fromNameAndValue( $name, 'value' );
-
-		$this->fail( 'Expected an InvalidArgumentException to be thrown for an empty label name.' );
-	}
-
-	/**
 	 * @param string $value
 	 *
 	 * @throws InvalidArgumentException
@@ -53,23 +35,31 @@ final class LabelTest extends TestCase
 	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\AssertionFailedError
 	 *
-	 * @dataProvider invalidLabelNameWithWhitespaceProvider
+	 * @dataProvider invalidLabelNameProvider
 	 */
-	public function testThrowsExceptionForNameWithWhitespaces( string $name ) : void
+	public function testThrowsExceptionForInvalidLabelName( string $name ) : void
 	{
 		$this->expectException( InvalidArgumentException::class );
-		$this->expectExceptionMessage( 'Label names cannot contain whitespaces' );
+		$this->expectExceptionMessage( 'Invalid label name.' );
 
 		Label::fromNameAndValue( $name, 'value' );
 
-		$this->fail( 'Expected an InvalidArgumentException to be thrown for a label name with whitespaces.' );
+		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid label name.' );
 	}
 
-	public function invalidLabelNameWithWhitespaceProvider() : array
+	public function invalidLabelNameProvider() : iterable
 	{
-		return [
+		yield from $this->emptyStringProvider();
+
+		yield from [
 			[
 				'name' => 'label with whitespace',
+			],
+			[
+				'name' => 'label-with-dashes',
+			],
+			[
+				'name' => 'label_with,comma',
 			],
 			[
 				'name' => "label-with\ttab",
@@ -114,9 +104,9 @@ final class LabelTest extends TestCase
 				'expectedLabelString' => 'name="value with whitespaces"',
 			],
 			[
-				'name'                => ' name-with-surrounding-whitespaces ',
+				'name'                => ' name_with_surrounding:whitespaces ',
 				'value'               => ' value with surrounding whitespaces ',
-				'expectedLabelString' => 'name-with-surrounding-whitespaces="value with surrounding whitespaces"',
+				'expectedLabelString' => 'name_with_surrounding:whitespaces="value with surrounding whitespaces"',
 			],
 			[
 				'name'                => 'name',
