@@ -2,12 +2,44 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Tests\Unit;
 
+use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
+use OpenMetricsPhp\Exposition\Text\Label;
 use OpenMetricsPhp\Exposition\Text\LabelCollection;
 use PHPUnit\Framework\TestCase;
 
 final class LabelCollectionTest extends TestCase
 {
+	/**
+	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 */
+	public function testCanCreateNewInstance() : void
+	{
+		$collection = LabelCollection::new();
+
+		$this->assertCount( 0, $collection );
+		$this->assertSame( 0, $collection->count() );
+	}
+
+	/**
+	 * @throws InvalidArgumentException
+	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 */
+	public function testCanCreateNewInstanceFromLabels() : void
+	{
+		$labels = [
+			Label::fromNameAndValue( 'test_label', 'test-value' ),
+			Label::fromNameAndValue( 'label_test', 'value-test' ),
+		];
+
+		$collection = LabelCollection::fromLabels( ...$labels );
+
+		$this->assertCount( 2, $collection );
+		$this->assertSame( 2, $collection->count() );
+	}
+
 	/**
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
