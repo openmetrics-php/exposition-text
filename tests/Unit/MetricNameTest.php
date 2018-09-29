@@ -83,4 +83,45 @@ final class MetricNameTest extends TestCase
 			],
 		];
 	}
+
+	/**
+	 * @param string $name
+	 * @param string $otherName
+	 * @param bool   $expectedResult
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 *
+	 * @dataProvider equalityMetricNameProvider
+	 */
+	public function testCanCheckIfMetricNamesAreEqual( string $name, string $otherName, bool $expectedResult ) : void
+	{
+		$metricName = MetricName::fromString( $name );
+		$other      = MetricName::fromString( $otherName );
+
+		$this->assertSame( $expectedResult, $metricName->equals( $other ) );
+		$this->assertSame( $expectedResult, $other->equals( $metricName ) );
+	}
+
+	public function equalityMetricNameProvider() : array
+	{
+		return [
+			[
+				'name'           => 'unit_test_metric',
+				'otherName'      => 'unit_test_metric',
+				'expectedResult' => true,
+			],
+			[
+				'name'           => 'unit_test_metric ',
+				'otherName'      => ' unit_test_metric',
+				'expectedResult' => true,
+			],
+			[
+				'name'           => 'unit_test_metric',
+				'otherName'      => 'test_unit_metric',
+				'expectedResult' => false,
+			],
+		];
+	}
 }

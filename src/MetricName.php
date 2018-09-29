@@ -51,4 +51,9 @@ final class MetricName
 	{
 		return $this->metricName;
 	}
+
+	public function equals( MetricName $other ) : bool
+	{
+		return $this->metricName === $other->metricName;
+	}
 }
