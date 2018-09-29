@@ -40,32 +40,31 @@ final class Gauge
 	}
 
 	/**
-	 * @param string $metricName
-	 * @param float  $gaugeValue
+	 * @param MetricName $metricName
+	 * @param float      $gaugeValue
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 * @return Gauge
 	 */
-	public static function fromMetricNameAndValue( string $metricName, float $gaugeValue ) : self
+	public static function fromMetricNameAndValue( MetricName $metricName, float $gaugeValue ) : self
 	{
-		return new self( MetricName::fromString( $metricName ), $gaugeValue );
+		return new self( $metricName, $gaugeValue );
 	}
 
 	/**
-	 * @param string $metricName
-	 * @param float  $gaugeValue
-	 * @param int    $timestamp
+	 * @param MetricName $metricName
+	 * @param float      $gaugeValue
+	 * @param int        $timestamp
 	 *
-	 * @throws Exceptions\InvalidArgumentException
 	 * @return Gauge
 	 */
 	public static function fromMetricNameValueAndTimestamp(
-		string $metricName,
+		MetricName $metricName,
 		float $gaugeValue,
 		int $timestamp
 	) : self
 	{
-		return new self( MetricName::fromString( $metricName ), $gaugeValue, $timestamp );
+		return new self( $metricName, $gaugeValue, $timestamp );
 	}
 
 	public function addLabels( ProvidesNamedValue $label, ProvidesNamedValue ...$labels ) : void

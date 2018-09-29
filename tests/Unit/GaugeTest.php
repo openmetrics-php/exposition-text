@@ -5,6 +5,7 @@ namespace OpenMetricsPhp\Exposition\Text\Tests\Unit;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Gauge;
 use OpenMetricsPhp\Exposition\Text\Label;
+use OpenMetricsPhp\Exposition\Text\MetricName;
 use PHPUnit\Framework\TestCase;
 
 final class GaugeTest extends TestCase
@@ -17,9 +18,10 @@ final class GaugeTest extends TestCase
 	public function testCanGetInstanceFromMetricNameValueAndTimestamp() : void
 	{
 		$timestamp      = time();
+		$metricName     = MetricName::fromString( 'unit_test_metric' );
 		$expectedSample = 'unit_test_metric 1.230000 ' . $timestamp;
 
-		$gauge = Gauge::fromMetricNameValueAndTimestamp( 'unit_test_metric', 1.23, $timestamp );
+		$gauge = Gauge::fromMetricNameValueAndTimestamp( $metricName, 1.23, $timestamp );
 
 		$this->assertSame( $expectedSample, $gauge->getSampleString() );
 	}
@@ -31,9 +33,10 @@ final class GaugeTest extends TestCase
 	 */
 	public function testFromMetricNameAndValue() : void
 	{
+		$metricName     = MetricName::fromString( 'unit_test_metric' );
 		$expectedSample = 'unit_test_metric 1.230000';
 
-		$gauge = Gauge::fromMetricNameAndValue( 'unit_test_metric', 1.23 );
+		$gauge = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
 
 		$this->assertSame( $expectedSample, $gauge->getSampleString() );
 	}
@@ -45,7 +48,8 @@ final class GaugeTest extends TestCase
 	 */
 	public function testSetHelp() : void
 	{
-		$gauge = Gauge::fromMetricNameAndValue( 'unit_test_metric', 1.23 );
+		$metricName = MetricName::fromString( 'unit_test_metric' );
+		$gauge      = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
 
 		$this->assertSame( '', $gauge->getHelpString() );
 
@@ -61,7 +65,8 @@ final class GaugeTest extends TestCase
 	 */
 	public function testGetTypeString() : void
 	{
-		$gauge = Gauge::fromMetricNameAndValue( 'unit_test_metric', 1.23 );
+		$metricName = MetricName::fromString( 'unit_test_metric' );
+		$gauge      = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
 
 		$this->assertSame( '# TYPE unit_test_metric gauge', $gauge->getTypeString() );
 	}
@@ -74,11 +79,12 @@ final class GaugeTest extends TestCase
 	public function testGetSingleMetricString() : void
 	{
 		$timestamp            = time();
+		$metricName           = MetricName::fromString( 'unit_test_metric' );
 		$expectedHelpString   = '# HELP unit_test_metric This helps understaning the metric.';
 		$expectedTypeString   = '# TYPE unit_test_metric gauge';
 		$expectedSampleString = 'unit_test_metric 1.230000 ' . $timestamp;
 
-		$gauge = Gauge::fromMetricNameValueAndTimestamp( 'unit_test_metric', 1.23, $timestamp );
+		$gauge = Gauge::fromMetricNameValueAndTimestamp( $metricName, 1.23, $timestamp );
 
 		$this->assertSame( $expectedTypeString . "\n" . $expectedSampleString, $gauge->getSingleMetricString() );
 
@@ -100,14 +106,15 @@ final class GaugeTest extends TestCase
 	public function testGetSampleString() : void
 	{
 		$timestamp                            = time();
+		$metricName                           = MetricName::fromString( 'unit_test_metric' );
 		$expectedSampleStringWithTimestamp    = 'unit_test_metric 1.230000 ' . $timestamp;
 		$expectedSampleStringWithoutTimestamp = 'unit_test_metric 1.230000';
 
-		$gauge = Gauge::fromMetricNameValueAndTimestamp( 'unit_test_metric', 1.23, $timestamp );
+		$gauge = Gauge::fromMetricNameValueAndTimestamp( $metricName, 1.23, $timestamp );
 
 		$this->assertSame( $expectedSampleStringWithTimestamp, $gauge->getSampleString() );
 
-		$gauge = Gauge::fromMetricNameAndValue( 'unit_test_metric', 1.23 );
+		$gauge = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
 
 		$this->assertSame( $expectedSampleStringWithoutTimestamp, $gauge->getSampleString() );
 	}
@@ -119,11 +126,12 @@ final class GaugeTest extends TestCase
 	 */
 	public function testAddLabels() : void
 	{
+		$metricName                          = MetricName::fromString( 'unit_test_metric' );
 		$expectedSampleStringWithoutLabels   = 'unit_test_metric 1.230000';
 		$expectedSampleStringWithOneLabel    = 'unit_test_metric{unit_test="123"} 1.230000';
 		$expectedSampleStringWithThreeLabels = 'unit_test_metric{unit_test="123", test_unit="456", label:last="789"} 1.230000';
 
-		$gauge = Gauge::fromMetricNameAndValue( 'unit_test_metric', 1.23 );
+		$gauge = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
 
 		$this->assertSame( $expectedSampleStringWithoutLabels, $gauge->getSampleString() );
 
@@ -146,7 +154,8 @@ final class GaugeTest extends TestCase
 	 */
 	public function testGetHelpString() : void
 	{
-		$gauge = Gauge::fromMetricNameAndValue( 'unit_test_metric', 1.23 );
+		$metricName = MetricName::fromString( 'unit_test_metric' );
+		$gauge      = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
 
 		$this->assertSame( '', $gauge->getHelpString() );
 
