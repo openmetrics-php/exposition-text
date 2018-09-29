@@ -35,7 +35,7 @@ final class Gauge
 		$this->metricName = $metricName;
 		$this->gaugeValue = $gaugeValue;
 		$this->timestamp  = $timestamp;
-		$this->labels     = new LabelCollection();
+		$this->labels     = LabelCollection::new();
 		$this->help       = '';
 	}
 
@@ -98,7 +98,7 @@ final class Gauge
 		return sprintf(
 			'%s%s %f%s',
 			$this->metricName->toString(),
-			$this->labels->asCombinedLabelString(),
+			$this->labels->getCombinedLabelString(),
 			$this->gaugeValue,
 			null !== $this->timestamp ? (' ' . $this->timestamp) : ''
 		);

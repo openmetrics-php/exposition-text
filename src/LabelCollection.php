@@ -11,11 +11,24 @@ use function implode;
 final class LabelCollection implements Countable
 {
 	/** @var array|ProvidesNamedValue[] */
-	private $labels = [];
+	private $labels;
 
-	public function count() : int
+	private function __construct()
 	{
-		return count( $this->labels );
+		$this->labels = [];
+	}
+
+	public static function new() : self
+	{
+		return new self();
+	}
+
+	public static function fromLabels( ProvidesNamedValue $label, ProvidesNamedValue ...$labels ) : self
+	{
+		$collection = new self();
+		$collection->add( $label, ...$labels );
+
+		return $collection;
 	}
 
 	public function add( ProvidesNamedValue $label, ProvidesNamedValue ...$labels ) : void
@@ -28,7 +41,12 @@ final class LabelCollection implements Countable
 		}
 	}
 
-	public function asCombinedLabelString() : string
+	public function count() : int
+	{
+		return count( $this->labels );
+	}
+
+	public function getCombinedLabelString() : string
 	{
 		if ( 0 === $this->count() )
 		{
@@ -38,7 +56,7 @@ final class LabelCollection implements Countable
 		$labelStrings = array_map(
 			function ( ProvidesNamedValue $label )
 			{
-				return $label->asLabelString();
+				return $label->getLabelString();
 			},
 			$this->labels
 		);
