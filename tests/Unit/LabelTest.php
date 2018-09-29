@@ -87,7 +87,7 @@ final class LabelTest extends TestCase
 
 		$this->assertSame( trim( $name ), $label->getName() );
 		$this->assertSame( trim( $value ), $label->getValue() );
-		$this->assertSame( $expectedLabelString, $label->asLabelString() );
+		$this->assertSame( $expectedLabelString, $label->getLabelString() );
 	}
 
 	public function labelStringsProvider() : array

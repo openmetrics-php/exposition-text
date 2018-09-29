@@ -99,7 +99,7 @@ final class Label implements ProvidesNamedValue
 		return $this->value;
 	}
 
-	public function asLabelString() : string
+	public function getLabelString() : string
 	{
 		return sprintf(
 			'%s="%s"',

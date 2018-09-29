@@ -8,5 +8,5 @@ interface ProvidesNamedValue
 
 	public function getValue() : string;
 
-	public function asLabelString() : string;
+	public function getLabelString() : string;
 }
