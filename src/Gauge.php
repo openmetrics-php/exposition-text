@@ -88,6 +88,11 @@ final class Gauge
 		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
 	}
 
+	public function getMetricName() : MetricName
+	{
+		return $this->metricName;
+	}
+
 	public function getTypeString() : string
 	{
 		return sprintf( '# TYPE %s %s', $this->metricName->toString(), self::TYPE );
