@@ -3,7 +3,6 @@
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
 use Countable;
-use OpenMetricsPhp\Exposition\Text\Exceptions\MetricNameMismatchException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use function array_merge;
@@ -12,8 +11,13 @@ use function implode;
 
 final class GaugeCollection implements Countable
 {
+	private const TYPE = 'gauge';
+
 	/** @var NamesMetric */
 	private $metricName;
+
+	/** @var string */
+	private $help;
 
 	/** @var array|Gauge[] */
 	private $gauges = [];
@@ -21,6 +25,7 @@ final class GaugeCollection implements Countable
 	private function __construct( NamesMetric $metricName )
 	{
 		$this->metricName = $metricName;
+		$this->help       = '';
 	}
 
 	public static function new( NamesMetric $metricName ) : self
@@ -33,7 +38,6 @@ final class GaugeCollection implements Countable
 	 * @param Gauge       $gauge
 	 * @param Gauge       ...$gauges
 	 *
-	 * @throws MetricNameMismatchException
 	 * @return GaugeCollection
 	 */
 	public static function fromGauges( NamesMetric $metricName, Gauge $gauge, Gauge ...$gauges ) : self
@@ -47,42 +51,22 @@ final class GaugeCollection implements Countable
 	/**
 	 * @param Gauge $gauge
 	 * @param Gauge ...$gauges
-	 *
-	 * @throws MetricNameMismatchException
 	 */
 	public function add( Gauge $gauge, Gauge ...$gauges ) : void
 	{
-		$this->guardGaugesMatchMetricName( $gauge, ...$gauges );
-
 		$this->gauges = array_merge( $this->gauges, [$gauge], $gauges );
 	}
 
-	/**
-	 * @param Gauge $gauge
-	 * @param Gauge ...$gauges
-	 *
-	 * @throws MetricNameMismatchException
-	 */
-	private function guardGaugesMatchMetricName( Gauge $gauge, Gauge ...$gauges ) : void
+	public function withHelp( string $helpText ) : self
 	{
-		$this->guardGaugeMatchesMetricName( $gauge );
-		foreach ( $gauges as $loopGauge )
-		{
-			$this->guardGaugeMatchesMetricName( $loopGauge );
-		}
+		$this->setHelp( $helpText );
+
+		return $this;
 	}
 
-	/**
-	 * @param Gauge $gauge
-	 *
-	 * @throws MetricNameMismatchException
-	 */
-	private function guardGaugeMatchesMetricName( Gauge $gauge ) : void
+	public function setHelp( string $helpText ) : void
 	{
-		if ( !$this->metricName->equals( $gauge->getMetricName() ) )
-		{
-			throw MetricNameMismatchException::forCollectionItem( $this->metricName, $gauge->getMetricName() );
-		}
+		$this->help = str_replace( "\n", ' ', trim( $helpText ) );
 	}
 
 	public function count() : int
@@ -97,19 +81,31 @@ final class GaugeCollection implements Countable
 			return '';
 		}
 
-		$strings = [];
+		$strings = [
+			$this->getTypeString(),
+			$this->getHelpString(),
+		];
 
 		foreach ( $this->gauges as $index => $gauge )
 		{
-			if ( 0 === $index )
-			{
-				$strings[] = $gauge->getTypeString();
-			}
-
-			$strings[] = $gauge->getHelpString();
-			$strings[] = $gauge->getSampleString();
+			$strings[] = $this->metricName->toString() . $gauge->getSampleString();
 		}
 
 		return implode( "\n", array_filter( $strings ) );
+	}
+
+	private function getTypeString() : string
+	{
+		return sprintf( '# TYPE %s %s', $this->metricName->toString(), self::TYPE );
+	}
+
+	private function getHelpString() : string
+	{
+		if ( '' === $this->help )
+		{
+			return '';
+		}
+
+		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
 	}
 }
