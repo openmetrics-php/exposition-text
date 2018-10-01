@@ -2,119 +2,56 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Metrics;
 
+use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
 final class GaugeTest extends TestCase
 {
 	/**
-	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
-	public function testCanGetInstanceFromMetricNameValueAndTimestamp() : void
+	public function testCanGetInstanceFromValueAndTimestamp() : void
 	{
 		$timestamp      = time();
-		$metricName     = MetricName::fromString( 'unit_test_metric' );
-		$expectedSample = 'unit_test_metric 1.230000 ' . $timestamp;
+		$expectedSample = ' 1.230000 ' . $timestamp;
 
-		$gauge = Gauge::fromMetricNameValueAndTimestamp( $metricName, 1.23, $timestamp );
+		$gauge = Gauge::fromValueAndTimestamp( 1.23, $timestamp );
 
 		$this->assertSame( $expectedSample, $gauge->getSampleString() );
 	}
 
 	/**
-	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testFromMetricNameAndValue() : void
 	{
-		$metricName     = MetricName::fromString( 'unit_test_metric' );
-		$expectedSample = 'unit_test_metric 1.230000';
+		$expectedSample = ' 1.230000';
 
-		$gauge = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
+		$gauge = Gauge::fromValue( 1.23 );
 
 		$this->assertSame( $expectedSample, $gauge->getSampleString() );
 	}
 
 	/**
-	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-	 */
-	public function testSetHelp() : void
-	{
-		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$gauge      = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
-
-		$this->assertSame( '', $gauge->getHelpString() );
-
-		$gauge->setHelp( 'This helps understanding the metric.' );
-
-		$this->assertSame( '# HELP unit_test_metric This helps understanding the metric.', $gauge->getHelpString() );
-	}
-
-	/**
-	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-	 */
-	public function testGetTypeString() : void
-	{
-		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$gauge      = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
-
-		$this->assertSame( '# TYPE unit_test_metric gauge', $gauge->getTypeString() );
-	}
-
-	/**
-	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-	 */
-	public function testGetSingleMetricString() : void
-	{
-		$timestamp            = time();
-		$metricName           = MetricName::fromString( 'unit_test_metric' );
-		$expectedHelpString   = '# HELP unit_test_metric This helps understaning the metric.';
-		$expectedTypeString   = '# TYPE unit_test_metric gauge';
-		$expectedSampleString = 'unit_test_metric 1.230000 ' . $timestamp;
-
-		$gauge = Gauge::fromMetricNameValueAndTimestamp( $metricName, 1.23, $timestamp );
-
-		$this->assertSame( $expectedTypeString . "\n" . $expectedSampleString, $gauge->getSingleMetricString() );
-
-		$gauge->setHelp( 'This helps understaning the metric.' );
-
-		$this->assertSame(
-			$expectedHelpString . "\n"
-			. $expectedTypeString . "\n"
-			. $expectedSampleString,
-			$gauge->getSingleMetricString()
-		);
-	}
-
-	/**
-	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testGetSampleString() : void
 	{
 		$timestamp                            = time();
-		$metricName                           = MetricName::fromString( 'unit_test_metric' );
-		$expectedSampleStringWithTimestamp    = 'unit_test_metric 1.230000 ' . $timestamp;
-		$expectedSampleStringWithoutTimestamp = 'unit_test_metric 1.230000';
+		$expectedSampleStringWithTimestamp    = ' 1.230000 ' . $timestamp;
+		$expectedSampleStringWithoutTimestamp = ' 1.230000';
 
-		$gauge = Gauge::fromMetricNameValueAndTimestamp( $metricName, 1.23, $timestamp );
+		$gauge = Gauge::fromValueAndTimestamp( 1.23, $timestamp );
 
 		$this->assertSame( $expectedSampleStringWithTimestamp, $gauge->getSampleString() );
 
-		$gauge = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
+		$gauge = Gauge::fromValue( 1.23 );
 
 		$this->assertSame( $expectedSampleStringWithoutTimestamp, $gauge->getSampleString() );
 	}
@@ -126,12 +63,11 @@ final class GaugeTest extends TestCase
 	 */
 	public function testAddLabels() : void
 	{
-		$metricName                          = MetricName::fromString( 'unit_test_metric' );
-		$expectedSampleStringWithoutLabels   = 'unit_test_metric 1.230000';
-		$expectedSampleStringWithOneLabel    = 'unit_test_metric{unit_test="123"} 1.230000';
-		$expectedSampleStringWithThreeLabels = 'unit_test_metric{unit_test="123", test_unit="456", label:last="789"} 1.230000';
+		$expectedSampleStringWithoutLabels   = ' 1.230000';
+		$expectedSampleStringWithOneLabel    = '{unit_test="123"} 1.230000';
+		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label:last="789"} 1.230000';
 
-		$gauge = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
+		$gauge = Gauge::fromValue( 1.23 );
 
 		$this->assertSame( $expectedSampleStringWithoutLabels, $gauge->getSampleString() );
 
@@ -152,15 +88,40 @@ final class GaugeTest extends TestCase
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
-	public function testGetHelpString() : void
+	public function testCanGetGaugeWithLabels() : void
 	{
-		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$gauge      = Gauge::fromMetricNameAndValue( $metricName, 1.23 );
+		$gauge = Gauge::fromValue(
+			12.3
+		)->withLabels(
+			Label::fromNameAndValue( 'unit', 'test' ),
+			Label::fromNameAndValue( 'test', 'unit' )
+		);
 
-		$this->assertSame( '', $gauge->getHelpString() );
+		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
 
-		$gauge->setHelp( 'This helps understanding the metric.' );
+		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
+	}
 
-		$this->assertSame( '# HELP unit_test_metric This helps understanding the metric.', $gauge->getHelpString() );
+	/**
+	 * @throws InvalidArgumentException
+	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 */
+	public function testCanGetGaugeWithLabelCollection() : void
+	{
+		$gauge = Gauge::fromValue(
+			12.3
+		)->withLabelCollection(
+			LabelCollection::fromAssocArray(
+				[
+					'unit' => 'test',
+					'test' => 'unit',
+				]
+			)
+		);
+
+		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
+
+		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}
 }

@@ -141,4 +141,25 @@ final class LabelCollectionTest extends TestCase
 		$this->assertCount( 2, $collection );
 		$this->assertSame( '{name1="value1", name2="value2"}', $collection->getCombinedLabelString() );
 	}
+
+	/**
+	 * @throws InvalidArgumentException
+	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 */
+	public function testCanGetInstanceFromAssocArray() : void
+	{
+		$labels = LabelCollection::fromAssocArray(
+			[
+				'unit' => 'test',
+				'test' => 'unit',
+			]
+		);
+
+		$this->assertCount( 2, $labels );
+
+		$expectedLabelString = '{unit="test", test="unit"}';
+
+		$this->assertSame( $expectedLabelString, $labels->getCombinedLabelString() );
+	}
 }
