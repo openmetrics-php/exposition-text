@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text;
+namespace OpenMetricsPhp\Exposition\Text\Types;
 
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;

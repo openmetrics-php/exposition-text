@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Fortuneglobe\Prometheus\Exporters\Tests\Unit\Application\Metrics;
+namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Types;
 
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Label;
 use OpenMetricsPhp\Exposition\Text\Tests\Traits\EmptyStringProviding;
+use OpenMetricsPhp\Exposition\Text\Types\Label;
 use PHPUnit\Framework\TestCase;
 
 final class LabelTest extends TestCase

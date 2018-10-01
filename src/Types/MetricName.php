@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text;
+namespace OpenMetricsPhp\Exposition\Text\Types;
 
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 
-final class MetricName
+final class MetricName implements NamesMetric
 {
 	/** @var string */
 	private $metricName;
@@ -52,8 +53,8 @@ final class MetricName
 		return $this->metricName;
 	}
 
-	public function equals( MetricName $other ) : bool
+	public function equals( NamesMetric $other ) : bool
 	{
-		return $this->metricName === $other->metricName;
+		return $this->toString() === $other->toString();
 	}
 }

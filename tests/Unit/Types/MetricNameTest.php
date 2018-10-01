@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Unit;
+namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Types;
 
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\MetricName;
 use OpenMetricsPhp\Exposition\Text\Tests\Traits\EmptyStringProviding;
+use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
 final class MetricNameTest extends TestCase

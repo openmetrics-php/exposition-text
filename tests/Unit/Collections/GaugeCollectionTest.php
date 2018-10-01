@@ -2,11 +2,11 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Tests\Unit;
 
+use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Exceptions\MetricNameMismatchException;
-use OpenMetricsPhp\Exposition\Text\Gauge;
-use OpenMetricsPhp\Exposition\Text\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\MetricName;
+use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
 final class GaugeCollectionTest extends TestCase

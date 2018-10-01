@@ -2,11 +2,11 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Exceptions;
 
-use OpenMetricsPhp\Exposition\Text\MetricName;
+use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 
 final class MetricNameMismatchException extends InvalidArgumentException
 {
-	public static function forCollectionItem( MetricName $collectionMetricName, MetricName $itemMetricName ) : self
+	public static function forCollectionItem( NamesMetric $collectionMetricName, NamesMetric $itemMetricName ) : self
 	{
 		return new self(
 			sprintf(

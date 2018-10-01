@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Unit;
+namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Collections;
 
+use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
-use OpenMetricsPhp\Exposition\Text\Label;
-use OpenMetricsPhp\Exposition\Text\LabelCollection;
+use OpenMetricsPhp\Exposition\Text\Types\Label;
 use PHPUnit\Framework\TestCase;
 
 final class LabelCollectionTest extends TestCase

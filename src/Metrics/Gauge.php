@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text;
+namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
+use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
+use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
 use function sprintf;
 use function str_replace;
@@ -10,13 +12,13 @@ final class Gauge
 {
 	private const TYPE = 'gauge';
 
-	/** @var MetricName */
+	/** @var NamesMetric */
 	private $metricName;
 
 	/** @var float */
 	private $gaugeValue;
 
-	/** @var int */
+	/** @var int|null */
 	private $timestamp;
 
 	/** @var LabelCollection */
@@ -26,11 +28,11 @@ final class Gauge
 	private $help;
 
 	/**
-	 * @param MetricName $metricName
-	 * @param float      $gaugeValue
-	 * @param int|null   $timestamp
+	 * @param NamesMetric $metricName
+	 * @param float       $gaugeValue
+	 * @param int|null    $timestamp
 	 */
-	private function __construct( MetricName $metricName, float $gaugeValue, ?int $timestamp = null )
+	private function __construct( NamesMetric $metricName, float $gaugeValue, ?int $timestamp = null )
 	{
 		$this->metricName = $metricName;
 		$this->gaugeValue = $gaugeValue;
@@ -40,26 +42,25 @@ final class Gauge
 	}
 
 	/**
-	 * @param MetricName $metricName
-	 * @param float      $gaugeValue
+	 * @param NamesMetric $metricName
+	 * @param float       $gaugeValue
 	 *
-	 * @throws Exceptions\InvalidArgumentException
 	 * @return Gauge
 	 */
-	public static function fromMetricNameAndValue( MetricName $metricName, float $gaugeValue ) : self
+	public static function fromMetricNameAndValue( NamesMetric $metricName, float $gaugeValue ) : self
 	{
 		return new self( $metricName, $gaugeValue );
 	}
 
 	/**
-	 * @param MetricName $metricName
-	 * @param float      $gaugeValue
-	 * @param int        $timestamp
+	 * @param NamesMetric $metricName
+	 * @param float       $gaugeValue
+	 * @param int         $timestamp
 	 *
 	 * @return Gauge
 	 */
 	public static function fromMetricNameValueAndTimestamp(
-		MetricName $metricName,
+		NamesMetric $metricName,
 		float $gaugeValue,
 		int $timestamp
 	) : self
@@ -87,7 +88,7 @@ final class Gauge
 		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
 	}
 
-	public function getMetricName() : MetricName
+	public function getMetricName() : NamesMetric
 	{
 		return $this->metricName;
 	}

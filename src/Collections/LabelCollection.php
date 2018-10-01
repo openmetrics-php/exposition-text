@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text;
+namespace OpenMetricsPhp\Exposition\Text\Collections;
 
 use Countable;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;

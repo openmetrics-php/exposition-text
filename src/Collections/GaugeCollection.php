@@ -1,40 +1,42 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text;
+namespace OpenMetricsPhp\Exposition\Text\Collections;
 
 use Countable;
 use OpenMetricsPhp\Exposition\Text\Exceptions\MetricNameMismatchException;
+use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use function array_merge;
 use function count;
 use function implode;
 
 final class GaugeCollection implements Countable
 {
-	/** @var MetricName */
+	/** @var NamesMetric */
 	private $metricName;
 
 	/** @var array|Gauge[] */
 	private $gauges = [];
 
-	private function __construct( MetricName $metricName )
+	private function __construct( NamesMetric $metricName )
 	{
 		$this->metricName = $metricName;
 	}
 
-	public static function new( MetricName $metricName ) : self
+	public static function new( NamesMetric $metricName ) : self
 	{
 		return new self( $metricName );
 	}
 
 	/**
-	 * @param MetricName $metricName
-	 * @param Gauge      $gauge
-	 * @param Gauge      ...$gauges
+	 * @param NamesMetric $metricName
+	 * @param Gauge       $gauge
+	 * @param Gauge       ...$gauges
 	 *
 	 * @throws MetricNameMismatchException
 	 * @return GaugeCollection
 	 */
-	public static function fromGauges( MetricName $metricName, Gauge $gauge, Gauge ...$gauges ) : self
+	public static function fromGauges( NamesMetric $metricName, Gauge $gauge, Gauge ...$gauges ) : self
 	{
 		$collection = self::new( $metricName );
 		$collection->add( $gauge, ...$gauges );
