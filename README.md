@@ -2,6 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/openmetrics-php/exposition-text/v/stable)](https://packagist.org/packages/openmetrics-php/exposition-text) 
 [![Total Downloads](https://poser.pugx.org/openmetrics-php/exposition-text/downloads)](https://packagist.org/packages/openmetrics-php/exposition-text) 
 [![codecov](https://codecov.io/gh/openmetrics-php/exposition-text/branch/master/graph/badge.svg)](https://codecov.io/gh/openmetrics-php/exposition-text)
+[![phpstan enabled](https://img.shields.io/badge/phpstan-enabled-green.svg)](https://github.com/phpstan/phpstan)
 
 # Exposition\Text
 
