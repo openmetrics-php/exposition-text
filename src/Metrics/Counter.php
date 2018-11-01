@@ -5,8 +5,9 @@ namespace OpenMetricsPhp\Exposition\Text\Metrics;
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
+use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 
-final class Counter
+final class Counter implements ProvidesSampleString
 {
 	/** @var float */
 	private $counterValue;
