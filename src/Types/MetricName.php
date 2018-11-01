@@ -57,4 +57,15 @@ final class MetricName implements NamesMetric
 	{
 		return $this->toString() === $other->toString();
 	}
+
+	/**
+	 * @param string $suffix
+	 *
+	 * @throws InvalidArgumentException
+	 * @return NamesMetric
+	 */
+	public function withSuffix( string $suffix ) : NamesMetric
+	{
+		return new self( $this->metricName . $suffix );
+	}
 }
