@@ -2,10 +2,10 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Countable;
+use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsMetrics;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 
-abstract class AbstractMetricCollection implements Countable
+abstract class AbstractMetricCollection implements CollectsMetrics
 {
 	/** @var NamesMetric */
 	private $metricName;

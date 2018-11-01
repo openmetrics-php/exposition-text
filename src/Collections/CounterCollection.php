@@ -4,38 +4,35 @@ namespace OpenMetricsPhp\Exposition\Text\Collections;
 
 use Iterator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use function array_merge;
+use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
 use function count;
-use function implode;
-use function iterator_to_array;
 
-final class GaugeCollection extends AbstractMetricCollection
+final class CounterCollection extends AbstractMetricCollection
 {
-	/** @var array|Gauge[] */
-	private $gauges = [];
+	/** @var array|Counter[] */
+	private $counters = [];
 
 	public static function new( NamesMetric $metricName ) : self
 	{
-		return new static( $metricName, 'gauge' );
+		return new static( $metricName, 'counter' );
 	}
 
-	public static function fromGauges( NamesMetric $metricName, Gauge $gauge, Gauge ...$gauges ) : self
+	public static function fromCounters( NamesMetric $metricName, Counter $counter, Counter ...$counters ) : self
 	{
 		$collection = self::new( $metricName );
-		$collection->add( $gauge, ...$gauges );
+		$collection->add( $counter, ...$counters );
 
 		return $collection;
 	}
 
-	public function add( Gauge $gauge, Gauge ...$gauges ) : void
+	public function add( Counter $counter, Counter ...$counters ) : void
 	{
-		$this->gauges = array_merge( $this->gauges, [$gauge], $gauges );
+		$this->counters = array_merge( $this->counters, [$counter], $counters );
 	}
 
 	public function count() : int
 	{
-		return count( $this->gauges );
+		return count( $this->counters );
 	}
 
 	public function getMetricLines() : Iterator
@@ -53,9 +50,9 @@ final class GaugeCollection extends AbstractMetricCollection
 			yield $helpString;
 		}
 
-		foreach ( $this->gauges as $gauge )
+		foreach ( $this->counters as $counter )
 		{
-			yield $this->getMetricName()->toString() . $gauge->getSampleString();
+			yield $this->getMetricName()->toString() . $counter->getSampleString();
 		}
 	}
 

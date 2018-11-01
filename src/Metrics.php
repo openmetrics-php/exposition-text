@@ -2,19 +2,24 @@
 
 namespace OpenMetricsPhp\Exposition\Text;
 
-use Generator;
+use Iterator;
+use OpenMetricsPhp\Exposition\Text\Collections\CounterCollection;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
+use OpenMetricsPhp\Exposition\Text\Exceptions\LogicException;
+use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsMetrics;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
+use function call_user_func;
+use function get_class;
 use function iterator_to_array;
 
-final class Metrics
+final class Metrics implements CollectsMetrics
 {
-	/** @var array|GaugeCollection[] */
-	private $gaugeCollections;
+	/** @var array|CollectsMetrics[] */
+	private $collections;
 
 	private function __construct()
 	{
-		$this->gaugeCollections = [];
+		$this->collections = [];
 	}
 
 	public static function new() : self
@@ -22,30 +27,95 @@ final class Metrics
 		return new self();
 	}
 
+	/**
+	 * @param NamesMetric $metricName
+	 *
+	 * @throws LogicException
+	 * @return GaugeCollection
+	 */
 	public function collectGauges( NamesMetric $metricName ) : GaugeCollection
 	{
-		return $this->getGaugeCollectionForMetricName( $metricName );
+		/** @var GaugeCollection $collection */
+		$collection = $this->getCollectionForMetricName( $metricName, GaugeCollection::class );
+
+		return $collection;
 	}
 
-	private function getGaugeCollectionForMetricName( NamesMetric $metricName ) : GaugeCollection
+	/**
+	 * @param NamesMetric $metricName
+	 * @param string      $collectionClass
+	 *
+	 * @throws LogicException
+	 * @return CollectsMetrics
+	 */
+	private function getCollectionForMetricName( NamesMetric $metricName, string $collectionClass ) : CollectsMetrics
 	{
-		if ( !isset( $this->gaugeCollections[ $metricName->toString() ] ) )
+		$key = $metricName->toString();
+		if ( !isset( $this->collections[ $key ] ) )
 		{
-			$this->gaugeCollections[ $metricName->toString() ] = GaugeCollection::new( $metricName );
+			$this->collections[ $key ] = call_user_func( [$collectionClass, 'new'], $metricName );
 		}
 
-		return $this->gaugeCollections[ $metricName->toString() ];
+		$this->guardCollectionIsInstanceOfClass( $this->collections[ $key ], $collectionClass );
+
+		return $this->collections[ $key ];
 	}
 
-	public function getMetricLines() : Generator
+	/**
+	 * @param        $collection
+	 * @param string $className
+	 *
+	 * @throws LogicException
+	 */
+	private function guardCollectionIsInstanceOfClass( $collection, string $className ) : void
 	{
-		foreach ( $this->gaugeCollections as $gaugeCollection )
+		if ( !($collection instanceof $className) )
 		{
-			yield from $gaugeCollection->getMetricLines();
+			throw new LogicException(
+				sprintf(
+					'Requested collection type does not match existing collection: Requested %s vs. existing %s',
+					$className,
+					get_class( $collection )
+				)
+			);
 		}
 	}
 
-	public function getMetricStrings() : string
+	/**
+	 * @param NamesMetric $metricName
+	 *
+	 * @throws LogicException
+	 * @return CounterCollection
+	 */
+	public function collectCounters( NamesMetric $metricName ) : CounterCollection
+	{
+		/** @var CounterCollection $collection */
+		$collection = $this->getCollectionForMetricName( $metricName, CounterCollection::class );
+
+		return $collection;
+	}
+
+	public function count() : int
+	{
+		$count = 0;
+
+		foreach ( $this->collections as $collection )
+		{
+			$count += $collection->count();
+		}
+
+		return $count;
+	}
+
+	public function getMetricLines() : Iterator
+	{
+		foreach ( $this->collections as $collection )
+		{
+			yield from $collection->getMetricLines();
+		}
+	}
+
+	public function getMetricsString() : string
 	{
 		return implode( "\n", iterator_to_array( $this->getMetricLines(), false ) );
 	}
