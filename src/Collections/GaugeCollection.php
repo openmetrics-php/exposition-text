@@ -3,8 +3,10 @@
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
 use Iterator;
+use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
 use function array_merge;
 use function count;
 use function implode;
@@ -62,5 +64,41 @@ final class GaugeCollection extends AbstractMetricCollection
 	public function getMetricsString() : string
 	{
 		return implode( "\n", iterator_to_array( $this->getMetricLines(), false ) );
+	}
+
+	public function countMeasuredValuesLowerThanOrEqualTo( float $bound ) : int
+	{
+		return count(
+			array_filter(
+				$this->gauges,
+				function ( Gauge $counter ) use ( $bound )
+				{
+					return $counter->getMeasuredValue() <= $bound;
+				}
+			)
+		);
+	}
+
+	public function sumMeasuredValues() : float
+	{
+		$sum = 0;
+		foreach ( $this->gauges as $gauge )
+		{
+			$sum += $gauge->getMeasuredValue();
+		}
+
+		return $sum;
+	}
+
+	/**
+	 * @param array  $bounds
+	 * @param string $suffix
+	 *
+	 * @throws InvalidArgumentException
+	 * @return Histogram
+	 */
+	public function getHistogram( array $bounds, string $suffix = '' ) : Histogram
+	{
+		return Histogram::fromGaugeCollectionWithBounds( $this, $bounds, $suffix );
 	}
 }
