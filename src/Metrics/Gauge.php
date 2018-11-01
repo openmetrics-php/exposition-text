@@ -3,10 +3,12 @@
 namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
+use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMeasuredValue;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
+use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 use function sprintf;
 
-final class Gauge
+final class Gauge implements ProvidesSampleString, ProvidesMeasuredValue
 {
 	/** @var float */
 	private $gaugeValue;
@@ -71,5 +73,10 @@ final class Gauge
 			$this->gaugeValue,
 			null !== $this->timestamp ? (' ' . $this->timestamp) : ''
 		);
+	}
+
+	public function getMeasuredValue() : float
+	{
+		return $this->gaugeValue;
 	}
 }
