@@ -124,4 +124,20 @@ final class MetricNameTest extends TestCase
 			],
 		];
 	}
+
+	/**
+	 * @throws InvalidArgumentException
+	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 */
+	public function testCanGetNewInstanceWithSuffix() : void
+	{
+		$metricName         = MetricName::fromString( 'unit_test_metric' );
+		$suffixedMetricName = $metricName->withSuffix( '_suffix' );
+
+		$this->assertNotSame( $metricName, $suffixedMetricName );
+		$this->assertFalse( $metricName->equals( $suffixedMetricName ) );
+		$this->assertFalse( $suffixedMetricName->equals( $metricName ) );
+		$this->assertSame( 'unit_test_metric_suffix', $suffixedMetricName->toString() );
+	}
 }
