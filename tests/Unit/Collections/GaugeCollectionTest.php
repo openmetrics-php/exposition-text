@@ -19,7 +19,7 @@ final class GaugeCollectionTest extends TestCase
 	public function testCanGetNewInstance() : void
 	{
 		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$collection = GaugeCollection::new( $metricName );
+		$collection = GaugeCollection::withMetricName( $metricName );
 
 		$this->assertCount( 0, $collection );
 		$this->assertSame( 0, $collection->count() );
@@ -33,7 +33,7 @@ final class GaugeCollectionTest extends TestCase
 	public function testCanCount() : void
 	{
 		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$collection = GaugeCollection::new( $metricName );
+		$collection = GaugeCollection::withMetricName( $metricName );
 
 		$this->assertCount( 0, $collection );
 		$this->assertSame( 0, $collection->count() );
@@ -77,7 +77,7 @@ final class GaugeCollectionTest extends TestCase
 			Gauge::fromValue( 45.6 ),
 		];
 
-		$collection = GaugeCollection::new( $metricName );
+		$collection = GaugeCollection::withMetricName( $metricName );
 		$collection->add( ...$gauges );
 		$collection->add( Gauge::fromValueAndTimestamp( 78.9, time() ) );
 
@@ -122,7 +122,7 @@ final class GaugeCollectionTest extends TestCase
 	public function testMetricsStringIsEmptyIfNoGaugesWereAdded() : void
 	{
 		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$collection = GaugeCollection::new( $metricName );
+		$collection = GaugeCollection::withMetricName( $metricName );
 
 		$this->assertSame( '', $collection->getMetricsString() );
 	}

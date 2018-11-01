@@ -12,14 +12,14 @@ final class CounterCollection extends AbstractMetricCollection
 	/** @var array|Counter[] */
 	private $counters = [];
 
-	public static function new( NamesMetric $metricName ) : self
+	public static function withMetricName( NamesMetric $metricName ) : self
 	{
 		return new static( $metricName, 'counter' );
 	}
 
 	public static function fromCounters( NamesMetric $metricName, Counter $counter, Counter ...$counters ) : self
 	{
-		$collection = self::new( $metricName );
+		$collection = self::withMetricName( $metricName );
 		$collection->add( $counter, ...$counters );
 
 		return $collection;

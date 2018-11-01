@@ -15,14 +15,14 @@ final class GaugeCollection extends AbstractMetricCollection
 	/** @var array|Gauge[] */
 	private $gauges = [];
 
-	public static function new( NamesMetric $metricName ) : self
+	public static function withMetricName( NamesMetric $metricName ) : self
 	{
 		return new static( $metricName, 'gauge' );
 	}
 
 	public static function fromGauges( NamesMetric $metricName, Gauge $gauge, Gauge ...$gauges ) : self
 	{
-		$collection = self::new( $metricName );
+		$collection = self::withMetricName( $metricName );
 		$collection->add( $gauge, ...$gauges );
 
 		return $collection;

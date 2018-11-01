@@ -19,7 +19,7 @@ final class CounterCollectionTest extends TestCase
 	public function testCanGetNewInstance() : void
 	{
 		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$collection = CounterCollection::new( $metricName );
+		$collection = CounterCollection::withMetricName( $metricName );
 
 		$this->assertCount( 0, $collection );
 		$this->assertSame( 0, $collection->count() );
@@ -33,7 +33,7 @@ final class CounterCollectionTest extends TestCase
 	public function testCanCount() : void
 	{
 		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$collection = CounterCollection::new( $metricName );
+		$collection = CounterCollection::withMetricName( $metricName );
 
 		$this->assertCount( 0, $collection );
 		$this->assertSame( 0, $collection->count() );
@@ -77,7 +77,7 @@ final class CounterCollectionTest extends TestCase
 			Counter::fromValue( 45 ),
 		];
 
-		$collection = CounterCollection::new( $metricName );
+		$collection = CounterCollection::withMetricName( $metricName );
 		$collection->add( ...$counters );
 		$collection->add( Counter::fromValueAndTimestamp( 78, time() ) );
 
@@ -122,7 +122,7 @@ final class CounterCollectionTest extends TestCase
 	public function testMetricsStringIsEmptyIfNoCountersWereAdded() : void
 	{
 		$metricName = MetricName::fromString( 'unit_test_metric' );
-		$collection = CounterCollection::new( $metricName );
+		$collection = CounterCollection::withMetricName( $metricName );
 
 		$this->assertSame( '', $collection->getMetricsString() );
 	}

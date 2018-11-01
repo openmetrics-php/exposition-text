@@ -7,6 +7,8 @@ use Iterator;
 
 interface CollectsMetrics extends Countable
 {
+	public static function withMetricName( NamesMetric $metricName );
+
 	public function getMetricLines() : Iterator;
 
 	public function getMetricsString() : string;

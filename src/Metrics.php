@@ -2,17 +2,17 @@
 
 namespace OpenMetricsPhp\Exposition\Text;
 
+use Countable;
 use Iterator;
 use OpenMetricsPhp\Exposition\Text\Collections\CounterCollection;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\LogicException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsMetrics;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
-use function call_user_func;
 use function get_class;
 use function iterator_to_array;
 
-final class Metrics implements CollectsMetrics
+final class Metrics implements Countable
 {
 	/** @var array|CollectsMetrics[] */
 	private $collections;
@@ -53,7 +53,8 @@ final class Metrics implements CollectsMetrics
 		$key = $metricName->toString();
 		if ( !isset( $this->collections[ $key ] ) )
 		{
-			$this->collections[ $key ] = call_user_func( [$collectionClass, 'new'], $metricName );
+			/** @var CollectsMetrics $collectionClass */
+			$this->collections[ $key ] = $collectionClass::withMetricName( $metricName );
 		}
 
 		$this->guardCollectionIsInstanceOfClass( $this->collections[ $key ], $collectionClass );
@@ -62,12 +63,12 @@ final class Metrics implements CollectsMetrics
 	}
 
 	/**
-	 * @param        $collection
-	 * @param string $className
+	 * @param CollectsMetrics $collection
+	 * @param string          $className
 	 *
 	 * @throws LogicException
 	 */
-	private function guardCollectionIsInstanceOfClass( $collection, string $className ) : void
+	private function guardCollectionIsInstanceOfClass( CollectsMetrics $collection, string $className ) : void
 	{
 		if ( !($collection instanceof $className) )
 		{
