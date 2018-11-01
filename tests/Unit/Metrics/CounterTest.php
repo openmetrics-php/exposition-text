@@ -13,11 +13,12 @@ final class CounterTest extends TestCase
 	/**
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function testCanGetInstanceFromValueAndTimestamp() : void
 	{
 		$timestamp      = time();
-		$expectedSample = ' 1 ' . $timestamp;
+		$expectedSample = ' 1.000000 ' . $timestamp;
 
 		$gauge = Counter::fromValueAndTimestamp( 1, $timestamp );
 
@@ -27,10 +28,11 @@ final class CounterTest extends TestCase
 	/**
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function testFromMetricNameAndValue() : void
 	{
-		$expectedSample = ' 1';
+		$expectedSample = ' 1.000000';
 
 		$gauge = Counter::fromValue( 1 );
 
@@ -40,12 +42,13 @@ final class CounterTest extends TestCase
 	/**
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function testGetSampleString() : void
 	{
 		$timestamp                            = time();
-		$expectedSampleStringWithTimestamp    = ' 1 ' . $timestamp;
-		$expectedSampleStringWithoutTimestamp = ' 1';
+		$expectedSampleStringWithTimestamp    = ' 1.000000 ' . $timestamp;
+		$expectedSampleStringWithoutTimestamp = ' 1.000000';
 
 		$gauge = Counter::fromValueAndTimestamp( 1, $timestamp );
 
@@ -63,9 +66,9 @@ final class CounterTest extends TestCase
 	 */
 	public function testAddLabels() : void
 	{
-		$expectedSampleStringWithoutLabels   = ' 1';
-		$expectedSampleStringWithOneLabel    = '{unit_test="123"} 1';
-		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label:last="789"} 1';
+		$expectedSampleStringWithoutLabels   = ' 1.000000';
+		$expectedSampleStringWithOneLabel    = '{unit_test="123"} 1.000000';
+		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label:last="789"} 1.000000';
 
 		$gauge = Counter::fromValue( 1 );
 
@@ -90,13 +93,13 @@ final class CounterTest extends TestCase
 	 */
 	public function testCanGetCounterWithLabels() : void
 	{
-		$gauge = Counter::fromValue( 12 )
+		$gauge = Counter::fromValue( 12.3 )
 		                ->withLabels(
 			                Label::fromNameAndValue( 'unit', 'test' ),
 			                Label::fromNameAndValue( 'test', 'unit' )
 		                );
 
-		$expectedSampleString = '{unit="test", test="unit"} 12';
+		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}
@@ -108,7 +111,7 @@ final class CounterTest extends TestCase
 	 */
 	public function testCanGetCounterWithLabelCollection() : void
 	{
-		$gauge = Counter::fromValue( 12 )
+		$gauge = Counter::fromValue( 12.3 )
 		                ->withLabelCollection(
 			                LabelCollection::fromAssocArray(
 				                [
@@ -118,8 +121,19 @@ final class CounterTest extends TestCase
 			                )
 		                );
 
-		$expectedSampleString = '{unit="test", test="unit"} 12';
+		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
+	}
+
+	/**
+	 * @throws InvalidArgumentException
+	 */
+	public function testThrowsExceptionForNegativeCounterValue() : void
+	{
+		$this->expectException( InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'Counters must start at 0 and can only go up.' );
+
+		Counter::fromValue( -0.123 );
 	}
 }

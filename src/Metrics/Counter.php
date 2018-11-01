@@ -3,11 +3,12 @@
 namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
+use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
 
 final class Counter
 {
-	/** @var int */
+	/** @var float */
 	private $counterValue;
 
 	/** @var int|null */
@@ -17,22 +18,52 @@ final class Counter
 	private $labels;
 
 	/**
-	 * @param int      $counterValue
+	 * @param float    $counterValue
 	 * @param int|null $timestamp
+	 *
+	 * @throws InvalidArgumentException
 	 */
-	private function __construct( int $counterValue, ?int $timestamp = null )
+	private function __construct( float $counterValue, ?int $timestamp = null )
 	{
+		$this->guardCounterIsValid( $counterValue );
+
 		$this->counterValue = $counterValue;
 		$this->timestamp    = $timestamp;
 		$this->labels       = LabelCollection::new();
 	}
 
-	public static function fromValue( int $counterValue ) : self
+	/**
+	 * @param float $counter
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	private function guardCounterIsValid( float $counter ) : void
+	{
+		if ( 0 > $counter )
+		{
+			throw new InvalidArgumentException( 'Counters must start at 0 and can only go up.' );
+		}
+	}
+
+	/**
+	 * @param float $counterValue
+	 *
+	 * @throws InvalidArgumentException
+	 * @return Counter
+	 */
+	public static function fromValue( float $counterValue ) : self
 	{
 		return new self( $counterValue );
 	}
 
-	public static function fromValueAndTimestamp( int $counterValue, int $timestamp ) : self
+	/**
+	 * @param float $counterValue
+	 * @param int   $timestamp
+	 *
+	 * @throws InvalidArgumentException
+	 * @return Counter
+	 */
+	public static function fromValueAndTimestamp( float $counterValue, int $timestamp ) : self
 	{
 		return new self( $counterValue, $timestamp );
 	}
@@ -62,7 +93,7 @@ final class Counter
 	public function getSampleString() : string
 	{
 		return sprintf(
-			'%s %d%s',
+			'%s %f%s',
 			$this->labels->getCombinedLabelString(),
 			$this->counterValue,
 			null !== $this->timestamp ? (' ' . $this->timestamp) : ''
