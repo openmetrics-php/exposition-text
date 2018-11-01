@@ -2,8 +2,10 @@
 
 namespace OpenMetricsPhp\Exposition\Text;
 
+use Generator;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
+use function iterator_to_array;
 
 final class Metrics
 {
@@ -35,15 +37,16 @@ final class Metrics
 		return $this->gaugeCollections[ $metricName->toString() ];
 	}
 
-	public function getMetricStrings() : string
+	public function getMetricLines() : Generator
 	{
-		$strings = [];
-
 		foreach ( $this->gaugeCollections as $gaugeCollection )
 		{
-			$strings[] = $gaugeCollection->getMetricStrings();
+			yield from $gaugeCollection->getMetricLines();
 		}
+	}
 
-		return implode( "\n", $strings );
+	public function getMetricStrings() : string
+	{
+		return implode( "\n", iterator_to_array( $this->getMetricLines(), false ) );
 	}
 }

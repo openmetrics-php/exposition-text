@@ -2,35 +2,22 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Countable;
+use Generator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use function array_merge;
 use function count;
 use function implode;
+use function iterator_to_array;
 
-final class GaugeCollection implements Countable
+final class GaugeCollection extends AbstractMetricCollection
 {
-	private const TYPE = 'gauge';
-
-	/** @var NamesMetric */
-	private $metricName;
-
-	/** @var string */
-	private $help;
-
 	/** @var array|Gauge[] */
 	private $gauges = [];
 
-	private function __construct( NamesMetric $metricName )
-	{
-		$this->metricName = $metricName;
-		$this->help       = '';
-	}
-
 	public static function new( NamesMetric $metricName ) : self
 	{
-		return new self( $metricName );
+		return new static( $metricName, 'gauge' );
 	}
 
 	/**
@@ -57,55 +44,34 @@ final class GaugeCollection implements Countable
 		$this->gauges = array_merge( $this->gauges, [$gauge], $gauges );
 	}
 
-	public function withHelp( string $helpText ) : self
-	{
-		$this->setHelp( $helpText );
-
-		return $this;
-	}
-
-	public function setHelp( string $helpText ) : void
-	{
-		$this->help = str_replace( "\n", ' ', trim( $helpText ) );
-	}
-
 	public function count() : int
 	{
 		return count( $this->gauges );
 	}
 
-	public function getMetricStrings() : string
+	public function getMetricLines() : Generator
 	{
 		if ( 0 === count( $this->gauges ) )
 		{
-			return '';
+			return;
 		}
 
-		$strings = [
-			$this->getTypeString(),
-			$this->getHelpString(),
-		];
+		yield $this->getTypeString();
 
-		foreach ( $this->gauges as $index => $gauge )
+		$helpString = $this->getHelpString();
+		if ( '' !== $helpString )
 		{
-			$strings[] = $this->metricName->toString() . $gauge->getSampleString();
+			yield $helpString;
 		}
 
-		return implode( "\n", array_filter( $strings ) );
+		foreach ( $this->gauges as $gauge )
+		{
+			yield $this->getMetricName()->toString() . $gauge->getSampleString();
+		}
 	}
 
-	private function getTypeString() : string
+	public function getMetricStrings() : string
 	{
-		return sprintf( '# TYPE %s %s', $this->metricName->toString(), self::TYPE );
-	}
-
-	private function getHelpString() : string
-	{
-		if ( '' === $this->help )
-		{
-			return '';
-		}
-
-		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
+		return implode( "\n", iterator_to_array( $this->getMetricLines(), false ) );
 	}
 }
