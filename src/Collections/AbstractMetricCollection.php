@@ -40,7 +40,7 @@ abstract class AbstractMetricCollection implements CollectsMetrics
 		$this->help = str_replace( "\n", ' ', trim( $helpText ) );
 	}
 
-	final protected function getMetricName() : NamesMetric
+	final public function getMetricName() : NamesMetric
 	{
 		return $this->metricName;
 	}

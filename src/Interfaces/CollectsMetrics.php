@@ -9,6 +9,8 @@ interface CollectsMetrics extends Countable
 {
 	public static function withMetricName( NamesMetric $metricName );
 
+	public function getMetricName() : NamesMetric;
+
 	public function getMetricLines() : Iterator;
 
 	public function getMetricsString() : string;
