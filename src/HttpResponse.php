@@ -2,14 +2,13 @@
 
 namespace OpenMetricsPhp\Exposition\Text;
 
-use InvalidArgumentException;
 use Iterator;
 use OpenMetricsPhp\Exposition\Text\HttpResponse\OutputStream;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
-use function flush;
+use function fpassthru;
 use function is_array;
 
 final class HttpResponse implements ResponseInterface
@@ -42,8 +41,8 @@ final class HttpResponse implements ResponseInterface
 	 * @param ProvidesMetricLines $collection
 	 * @param ProvidesMetricLines ...$collections
 	 *
-	 * @throws RuntimeException
-	 * @throws InvalidArgumentException
+	 * @throws Exceptions\InvalidArgumentException
+	 * @throws Exceptions\RuntimeException
 	 * @return HttpResponse
 	 */
 	public static function fromMetricCollections(
@@ -174,12 +173,6 @@ final class HttpResponse implements ResponseInterface
 		}
 
 		$this->body->rewind();
-
-		do
-		{
-			echo $this->body->read( 1024 );
-			flush();
-		}
-		while ( !$this->body->eof() );
+		fpassthru( $this->body->detach() );
 	}
 }
