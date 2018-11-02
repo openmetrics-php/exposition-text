@@ -55,6 +55,9 @@ final class OutputStream implements StreamInterface
 		);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString() : string
 	{
 		if ( !$this->isReadable() )
@@ -82,9 +85,16 @@ final class OutputStream implements StreamInterface
 		}
 
 		$resource = $this->detach();
-		fclose( $resource );
+
+		if ( is_resource( $resource ) )
+		{
+			fclose( $resource );
+		}
 	}
 
+	/**
+	 * @return bool|false|null|resource
+	 */
 	public function detach()
 	{
 		$resource       = $this->resource;
@@ -93,7 +103,10 @@ final class OutputStream implements StreamInterface
 		return $resource;
 	}
 
-	public function getSize()
+	/**
+	 * @return int|null
+	 */
+	public function getSize() : ?int
 	{
 		if ( !is_resource( $this->resource ) )
 		{
@@ -126,6 +139,9 @@ final class OutputStream implements StreamInterface
 		return $result;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function eof() : bool
 	{
 		if ( !$this->resource )
@@ -136,6 +152,9 @@ final class OutputStream implements StreamInterface
 		return feof( $this->resource );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function isSeekable() : bool
 	{
 		if ( !$this->resource )
@@ -186,6 +205,9 @@ final class OutputStream implements StreamInterface
 		return $this->seek( 0 );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function isWritable() : bool
 	{
 		if ( !$this->resource )
@@ -221,6 +243,9 @@ final class OutputStream implements StreamInterface
 		return $result;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function isReadable() : bool
 	{
 		if ( !$this->resource )
@@ -252,7 +277,7 @@ final class OutputStream implements StreamInterface
 			throw new RuntimeException( 'Stream is not readable' );
 		}
 
-		$result = fread( $this->resource, (int)$length );
+		$result = fread( $this->resource, $length );
 
 		if ( false === $result )
 		{
@@ -283,6 +308,11 @@ final class OutputStream implements StreamInterface
 		return $result;
 	}
 
+	/**
+	 * @param null $key
+	 *
+	 * @return array|mixed|null
+	 */
 	public function getMetadata( $key = null )
 	{
 		if ( !is_resource( $this->resource ) )

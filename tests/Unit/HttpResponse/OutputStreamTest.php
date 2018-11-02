@@ -14,8 +14,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testRead() : void
 	{
@@ -30,7 +30,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws \RuntimeException
+	 * @throws RuntimeException
 	 */
 	public function testReadThrowsExceptionWhenNoResourceIsAvailable() : void
 	{
@@ -63,7 +63,6 @@ final class OutputStreamTest extends TestCase
 	 * @throws RuntimeException
 	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testSeek() : void
@@ -121,8 +120,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testGetSize() : void
 	{
@@ -169,8 +168,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function test__toString() : void
 	{
@@ -190,8 +189,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testEof() : void
 	{
@@ -237,8 +236,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testRewind() : void
 	{
@@ -272,8 +271,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testTell() : void
 	{
@@ -305,8 +304,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testDetach() : void
 	{
@@ -323,8 +322,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testGetContents() : void
 	{
@@ -367,8 +366,8 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
-	 * @throws \RuntimeException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+	 * @throws RuntimeException
 	 */
 	public function testWrite() : void
 	{
