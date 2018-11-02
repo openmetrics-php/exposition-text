@@ -3,38 +3,39 @@
 namespace OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
 
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
 
-final class HistogramInfBucket implements ProvidesSampleString
+final class Bucket implements ProvidesSampleString
 {
-	/** @var ProvidesNamedValue */
+	/** @var Label */
 	private $le;
 
-	/** @var int */
+	/** @var float */
 	private $count;
 
 	/**
-	 * @param int $count
+	 * @param float $le
+	 * @param int   $count
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	private function __construct( int $count )
+	private function __construct( float $le, int $count )
 	{
-		$this->le    = Label::fromNameAndValue( 'le', '+Inf' );
+		$this->le    = Label::fromNameAndValue( 'le', (string)$le );
 		$this->count = $count;
 	}
 
 	/**
-	 * @param int $count
+	 * @param float $le
+	 * @param int   $value
 	 *
 	 * @throws InvalidArgumentException
-	 * @return HistogramInfBucket
+	 * @return Bucket
 	 */
-	public static function new( int $count ) : self
+	public static function new( float $le, int $value ) : self
 	{
-		return new self( $count );
+		return new self( $le, $value );
 	}
 
 	public function getSampleString() : string

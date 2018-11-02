@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
+namespace OpenMetricsPhp\Exposition\Text\Metrics\Aggregations;
 
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 
-final class HistogramSum implements ProvidesSampleString
+final class Sum implements ProvidesSampleString
 {
 	/** @var float */
 	private $sum;

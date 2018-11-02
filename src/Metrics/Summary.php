@@ -7,17 +7,13 @@ use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Count;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Sum;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram\Bucket;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram\InfiniteBucket;
-use function iterator_to_array;
-use function sort;
+use OpenMetricsPhp\Exposition\Text\Metrics\Summary\Quantile;
 use const SORT_ASC;
 use const SORT_NUMERIC;
 
-final class Histogram implements ProvidesMetricLines
+final class Summary implements ProvidesMetricLines
 {
 	/** @var NamesMetric */
 	private $metricName;
@@ -28,60 +24,58 @@ final class Histogram implements ProvidesMetricLines
 	/** @var string */
 	private $metricType;
 
-	/** @var array|ProvidesSampleString[] */
-	private $buckets;
+	/** @var array */
+	private $quantiles;
 
 	private function __construct( NamesMetric $metricName )
 	{
 		$this->metricName = $metricName;
 		$this->help       = '';
-		$this->metricType = 'histogram';
-		$this->buckets    = [];
+		$this->metricType = 'summary';
+		$this->quantiles  = [];
 	}
 
 	/**
 	 * @param GaugeCollection $collection
-	 * @param array           $bounds
+	 * @param array           $quantiles
 	 * @param string          $suffix
 	 *
 	 * @throws InvalidArgumentException
-	 * @return Histogram
+	 * @return Summary
 	 */
-	public static function fromGaugeCollectionWithBounds(
+	public static function fromGaugeCollectionWithQuantiles(
 		GaugeCollection $collection,
-		array $bounds,
+		array $quantiles,
 		string $suffix = ''
 	) : self
 	{
-		$histogram = new self( $collection->getMetricName()->withSuffix( $suffix ) );
+		$summary = new self( $collection->getMetricName()->withSuffix( $suffix ) );
 
-		foreach ( $histogram->getBucketsForBounds( $collection, $bounds ) as $bucket )
+		foreach ( $summary->getQuantiles( $collection, $quantiles ) as $quantile )
 		{
-			$histogram->buckets[] = $bucket;
+			$summary->quantiles[] = $quantile;
 		}
 
-		$countMeasurements    = $collection->count();
-		$histogram->buckets[] = InfiniteBucket::new( $countMeasurements );
-		$histogram->buckets[] = Sum::new( $collection->sumMeasuredValues() );
-		$histogram->buckets[] = Count::new( $countMeasurements );
+		$summary->quantiles[] = Sum::new( $collection->sumMeasuredValues() );
+		$summary->quantiles[] = Count::new( $collection->count() );
 
-		return $histogram;
+		return $summary;
 	}
 
 	/**
 	 * @param GaugeCollection $collection
-	 * @param array           $bounds
+	 * @param array           $quantiles
 	 *
 	 * @throws InvalidArgumentException
 	 * @return iterable
 	 */
-	private function getBucketsForBounds( GaugeCollection $collection, array $bounds ) : iterable
+	private function getQuantiles( GaugeCollection $collection, array $quantiles ) : iterable
 	{
-		sort( $bounds, SORT_NUMERIC | SORT_ASC );
+		sort( $quantiles, SORT_NUMERIC | SORT_ASC );
 
-		foreach ( $bounds as $bound )
+		foreach ( $quantiles as $quantile )
 		{
-			yield Bucket::new( $bound, $collection->countMeasuredValuesLowerThanOrEqualTo( $bound ) );
+			yield Quantile::new( $quantile, $collection->getQuantile( $quantile ) );
 		}
 	}
 
@@ -122,9 +116,9 @@ final class Histogram implements ProvidesMetricLines
 			yield $helpString;
 		}
 
-		foreach ( $this->buckets as $bucket )
+		foreach ( $this->quantiles as $quantile )
 		{
-			yield $this->metricName->toString() . $bucket->getSampleString();
+			yield $this->metricName->toString() . $quantile->getSampleString();
 		}
 	}
 
