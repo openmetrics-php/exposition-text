@@ -6,6 +6,7 @@ use Iterator;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 use OpenMetricsPhp\Exposition\Text\Metrics\Histogram\HistogramBucket;
 use OpenMetricsPhp\Exposition\Text\Metrics\Histogram\HistogramCount;
@@ -16,7 +17,7 @@ use function sort;
 use const SORT_ASC;
 use const SORT_NUMERIC;
 
-final class Histogram
+final class Histogram implements ProvidesMetricLines
 {
 	/** @var NamesMetric */
 	private $metricName;
