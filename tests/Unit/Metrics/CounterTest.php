@@ -68,7 +68,7 @@ final class CounterTest extends TestCase
 	{
 		$expectedSampleStringWithoutLabels   = ' 1.000000';
 		$expectedSampleStringWithOneLabel    = '{unit_test="123"} 1.000000';
-		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label:last="789"} 1.000000';
+		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label_last="789"} 1.000000';
 
 		$gauge = Counter::fromValue( 1 );
 
@@ -80,7 +80,7 @@ final class CounterTest extends TestCase
 
 		$gauge->addLabels(
 			Label::fromNameAndValue( 'test_unit', '456' ),
-			Label::fromNameAndValue( 'label:last', '789' )
+			Label::fromNameAndValue( 'label_last', '789' )
 		);
 
 		$this->assertSame( $expectedSampleStringWithThreeLabels, $gauge->getSampleString() );
@@ -134,6 +134,7 @@ final class CounterTest extends TestCase
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Counters must start at 0 and can only go up.' );
 
+		/** @noinspection UnusedFunctionResultInspection */
 		Counter::fromValue( -0.123 );
 	}
 }

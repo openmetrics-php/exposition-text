@@ -24,6 +24,7 @@ final class LabelTest extends TestCase
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Label value cannot be empty.' );
 
+		/** @noinspection UnusedFunctionResultInspection */
 		Label::fromNameAndValue( 'name', $value );
 
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for an empty label value.' );
@@ -42,6 +43,7 @@ final class LabelTest extends TestCase
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Invalid label name.' );
 
+		/** @noinspection UnusedFunctionResultInspection */
 		Label::fromNameAndValue( $name, 'value' );
 
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid label name.' );
@@ -66,6 +68,9 @@ final class LabelTest extends TestCase
 			],
 			[
 				'name' => "label-with\nlinebreak",
+			],
+			[
+				'name' => 'label-with:colon',
 			],
 		];
 	}
@@ -104,9 +109,9 @@ final class LabelTest extends TestCase
 				'expectedLabelString' => 'name="value with whitespaces"',
 			],
 			[
-				'name'                => ' name_with_surrounding:whitespaces ',
+				'name'                => ' name_with_surrounding_whitespaces ',
 				'value'               => ' value with surrounding whitespaces ',
-				'expectedLabelString' => 'name_with_surrounding:whitespaces="value with surrounding whitespaces"',
+				'expectedLabelString' => 'name_with_surrounding_whitespaces="value with surrounding whitespaces"',
 			],
 			[
 				'name'                => 'name',
@@ -203,6 +208,7 @@ final class LabelTest extends TestCase
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Invalid label string.' );
 
+		/** @noinspection UnusedFunctionResultInspection */
 		Label::fromLabelString( $labelString );
 
 		$this->fail( 'Expected exception for invalid label string.' );

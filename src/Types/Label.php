@@ -55,7 +55,7 @@ final class Label implements ProvidesNamedValue
 	public static function fromLabelString( string $labelString ) : self
 	{
 		$matches = [];
-		if ( !preg_match( '#^([a-z_:][a-z\d_:]*)="(.+)"$#i', $labelString, $matches ) )
+		if ( !preg_match( '#^([a-z_][a-z\d_]*)="(.+)"$#i', $labelString, $matches ) )
 		{
 			throw new InvalidArgumentException( 'Invalid label string.' );
 		}
@@ -70,7 +70,7 @@ final class Label implements ProvidesNamedValue
 	 */
 	private function guardNameIsValid( string $name ) : void
 	{
-		if ( !preg_match( '#^[a-z_:][a-z\d_:]*$#i', $name ) )
+		if ( !preg_match( '#^[a-z_][a-z\d_]*$#i', $name ) )
 		{
 			throw new InvalidArgumentException( 'Invalid label name.' );
 		}
