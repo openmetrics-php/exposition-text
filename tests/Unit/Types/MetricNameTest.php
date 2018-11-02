@@ -24,6 +24,7 @@ final class MetricNameTest extends TestCase
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Invalid metric name' );
 
+		/** @noinspection UnusedFunctionResultInspection */
 		MetricName::fromString( $metricName );
 
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid metric name.' );
