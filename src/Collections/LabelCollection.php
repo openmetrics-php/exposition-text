@@ -64,10 +64,7 @@ final class LabelCollection implements Countable, IteratorAggregate
 
 	public function getIterator() : iterable
 	{
-		foreach ( $this->labels as $label )
-		{
-			yield $label;
-		}
+		yield from $this->labels;
 	}
 
 	public function count() : int
