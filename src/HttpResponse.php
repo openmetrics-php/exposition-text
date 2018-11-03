@@ -7,8 +7,6 @@ use OpenMetricsPhp\Exposition\Text\HttpResponse\OutputStream;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use RuntimeException;
-use function fpassthru;
 use function is_array;
 
 final class HttpResponse implements ResponseInterface
@@ -162,9 +160,6 @@ final class HttpResponse implements ResponseInterface
 		return $this->reasonPhrase;
 	}
 
-	/**
-	 * @throws RuntimeException
-	 */
 	public function respond() : void
 	{
 		foreach ( array_keys( $this->headers ) as $name )
@@ -172,7 +167,7 @@ final class HttpResponse implements ResponseInterface
 			header( $name . ': ' . $this->getHeaderLine( $name ), true, $this->statusCode );
 		}
 
-		$this->body->rewind();
-		fpassthru( $this->body->detach() );
+		echo $this->body;
+		flush();
 	}
 }
