@@ -3,11 +3,8 @@
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
 use Iterator;
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
-use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
 use function array_map;
 use function array_merge;
 use function array_values;
@@ -113,29 +110,5 @@ final class GaugeCollection extends AbstractMetricCollection
 		}
 
 		return $sum;
-	}
-
-	/**
-	 * @param array  $bounds
-	 * @param string $suffix
-	 *
-	 * @throws InvalidArgumentException
-	 * @return Histogram
-	 */
-	public function getHistogram( array $bounds, string $suffix = '' ) : Histogram
-	{
-		return Histogram::fromGaugeCollectionWithBounds( $this, $bounds, $suffix );
-	}
-
-	/**
-	 * @param array  $quantiles
-	 * @param string $suffix
-	 *
-	 * @throws InvalidArgumentException
-	 * @return Summary
-	 */
-	public function getSummary( array $quantiles, string $suffix = '' ) : Summary
-	{
-		return Summary::fromGaugeCollectionWithQuantiles( $this, $quantiles, $suffix );
 	}
 }

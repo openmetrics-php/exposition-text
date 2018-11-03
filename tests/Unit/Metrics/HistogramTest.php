@@ -4,6 +4,7 @@ namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Metrics;
 
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
@@ -32,8 +33,11 @@ final class HistogramTest extends TestCase
 			Gauge::fromValue( 1.0 )
 		);
 
-		$histogram = $gaugeCollection->getHistogram( [0.3, 0.6, 0.9], '_histogram' )
-		                             ->withHelp( 'Histogram of gauges' );
+		$histogram = Histogram::fromGaugeCollectionWithBounds(
+			$gaugeCollection,
+			[0.3, 0.6, 0.9],
+			'_histogram'
+		)->withHelp( 'Histogram of gauges' );
 
 		$expectedMetricsString = "# TYPE unit_test_metric_histogram histogram\n";
 		$expectedMetricsString .= "# HELP unit_test_metric_histogram Histogram of gauges\n";
@@ -70,7 +74,11 @@ final class HistogramTest extends TestCase
 			Gauge::fromValue( 1.0 )
 		);
 
-		$histogram = $gaugeCollection->getHistogram( [0.3, 0.6, 0.9], '_histogram' );
+		$histogram = Histogram::fromGaugeCollectionWithBounds(
+			$gaugeCollection,
+			[0.3, 0.6, 0.9],
+			'_histogram'
+		);
 
 		$expectedMetricsString = "# TYPE unit_test_metric_histogram histogram\n";
 		$expectedMetricsString .= "unit_test_metric_histogram_bucket{le=\"0.3\"} 3\n";

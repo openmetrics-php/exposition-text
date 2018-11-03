@@ -4,6 +4,7 @@ namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Metrics;
 
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
@@ -32,8 +33,11 @@ final class SummaryTest extends TestCase
 			Gauge::fromValue( 1.0 )
 		);
 
-		$histogram = $gaugeCollection->getSummary( [0.5, 0.9], '_summary' )
-		                             ->withHelp( 'Summary of gauges' );
+		$summary = Summary::fromGaugeCollectionWithQuantiles(
+			$gaugeCollection,
+			[0.5, 0.9],
+			'_summary'
+		)->withHelp( 'Summary of gauges' );
 
 		$expectedMetricsString = "# TYPE unit_test_metric_summary summary\n";
 		$expectedMetricsString .= "# HELP unit_test_metric_summary Summary of gauges\n";
@@ -42,7 +46,7 @@ final class SummaryTest extends TestCase
 		$expectedMetricsString .= "unit_test_metric_summary_sum 6.880000\n";
 		$expectedMetricsString .= 'unit_test_metric_summary_count 12';
 
-		$this->assertSame( $expectedMetricsString, $histogram->getMetricsString() );
+		$this->assertSame( $expectedMetricsString, $summary->getMetricsString() );
 	}
 
 	/**
@@ -68,7 +72,11 @@ final class SummaryTest extends TestCase
 			Gauge::fromValue( 1.0 )
 		);
 
-		$histogram = $gaugeCollection->getSummary( [0.5, 0.9], '_summary' );
+		$summary = Summary::fromGaugeCollectionWithQuantiles(
+			$gaugeCollection,
+			[0.5, 0.9],
+			'_summary'
+		);
 
 		$expectedMetricsString = "# TYPE unit_test_metric_summary summary\n";
 		$expectedMetricsString .= "unit_test_metric_summary{quantile=\"0.5\"} 0.550000\n";
@@ -76,6 +84,6 @@ final class SummaryTest extends TestCase
 		$expectedMetricsString .= "unit_test_metric_summary_sum 6.880000\n";
 		$expectedMetricsString .= 'unit_test_metric_summary_count 12';
 
-		$this->assertSame( $expectedMetricsString, $histogram->getMetricsString() );
+		$this->assertSame( $expectedMetricsString, $summary->getMetricsString() );
 	}
 }
