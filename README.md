@@ -38,6 +38,8 @@ composer require openmetrics-php/exposition-text
 
 ### Create a collection of counters and respond it
 
+See [examples/counters.php](./examples/counters.php).
+
 ```php
 <?php declare(strict_types=1);
 
@@ -93,16 +95,18 @@ HttpResponse::fromMetricCollections($counters)->respond();
 # TYPE your_metric_name counter
 # HELP your_metric_name A helpful description of your measurement.
 your_metric_name 1.000000
-your_metric_name 2.000000 1541241869
-your_metric_name{label1="label_value"} 3.000000 
-your_metric_name{label2="label_value"} 4.000000 1541241869
+your_metric_name 2.000000 1541323663
+your_metric_name{label1="label_value"} 3.000000
+your_metric_name{label2="label_value"} 4.000000 1541323663
 your_metric_name 5.000000
-your_metric_name 6.000000 1541241869
+your_metric_name 6.000000 1541323663
 your_metric_name{label3="label_value"} 7.000000
-your_metric_name{label4="label_value", label5="label_value"} 8.000000 1541241869
+your_metric_name{label4="label_value", label5="label_value"} 8.000000 1541323663
 ```
 
 ### Create a collection of gauges and respond it
+
+See [examples/gauges.php](./examples/gauges.php).
 
 ```php
 <?php declare(strict_types=1);
@@ -156,16 +160,18 @@ HttpResponse::fromMetricCollections($gauges)->respond();
 # TYPE your_metric_name gauge
 # HELP your_metric_name A helpful description of your measurement.
 your_metric_name 12.300000
-your_metric_name -45.600000 1541241869
+your_metric_name -45.600000 1541323799
 your_metric_name{label1="label_value"} 78.900000
-your_metric_name{label2="label_value"} 0.120000 1541241869
+your_metric_name{label2="label_value"} 0.120000 1541323799
 your_metric_name 3.450000
-your_metric_name 67.800000 1541241869
-your_metric_name{label3="label_value"} 90.100000 
-your_metric_name{label4="label_value", label5="label_value"} 23.400000 1541241869 
+your_metric_name 67.800000 1541323799
+your_metric_name{label3="label_value"} 90.100000
+your_metric_name{label4="label_value", label5="label_value"} 23.400000 1541323799
 ```
 
 ### Create a histogram out of a gauge collection and respond it
+
+See [examples/histogram.php](./examples/histogram.php).
 
 ```php
 <?php declare(strict_types=1);
@@ -173,25 +179,25 @@ your_metric_name{label4="label_value", label5="label_value"} 23.400000 154124186
 namespace YourVendor\YourProject;
 
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
+use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 
 $values = [12.3, 45.6, 78.9, 0.12, 34.5];
 
-$gauges = GaugeCollection::withMetricName(MetricName::fromString('your_metric_name'))
-                         ->withHelp('Explanation of the histogram');
+$gauges = GaugeCollection::withMetricName( MetricName::fromString( 'your_metric_name' ) );
 
-foreach ($values as $value)
+foreach ( $values as $value )
 {
-	$gauges->add(Gauge::fromValue($value));
+	$gauges->add( Gauge::fromValue( $value ) );
 }
 
 # Create the histogram out of the gauge collection and suffix the metric name with "_histogram"
-$histogram = Histogram::fromGaugeCollectionWithBounds($gauges, [30, 46, 78.9, 90], '_histogram');
+$histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [30, 46, 78.9, 90], '_histogram' )
+                      ->withHelp( 'Explanation of the histogram' );
 
-HttpResponse::fromMetricCollections($histogram)->respond();
+HttpResponse::fromMetricCollections( $histogram )->respond();
 ```
 
 #### Prints
@@ -199,16 +205,18 @@ HttpResponse::fromMetricCollections($histogram)->respond();
 ```
 # TYPE your_metric_name_histogram histogram
 # HELP your_metric_name_histogram Explanation of the histogram
-your_metric_name_histogram{le="30"} 2
-your_metric_name_histogram{le="46"} 4
-your_metric_name_histogram{le="78.9"} 5
-your_metric_name_histogram{le="90"} 5
-your_metric_name_histogram{le="+Inf"} 5
+your_metric_name_histogram_bucket{le="30"} 2
+your_metric_name_histogram_bucket{le="46"} 4
+your_metric_name_histogram_bucket{le="78.9"} 5
+your_metric_name_histogram_bucket{le="90"} 5
+your_metric_name_histogram_bucket{le="+Inf"} 5
 your_metric_name_histogram_sum 171.420000
 your_metric_name_histogram_count 5
 ```
 
 ### Create a summary out of a gauge collection and respond it
+
+See [examples/summary.php](./examples/summary.php).
 
 ```php
 <?php declare(strict_types=1);
@@ -216,25 +224,25 @@ your_metric_name_histogram_count 5
 namespace YourVendor\YourProject;
 
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
+use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 
 $values = [1.0, 1.2, 2.0, 2.5, 2.9, 3.1, 4.0, 4.4, 5.0, 9.9];
 
-$gauges = GaugeCollection::withMetricName(MetricName::fromString('your_metric_name'))
-                         ->withHelp('Explanation of the summary');
+$gauges = GaugeCollection::withMetricName( MetricName::fromString( 'your_metric_name' ) );
 
-foreach ($values as $value)
+foreach ( $values as $value )
 {
-	$gauges->add(Gauge::fromValue($value));
+	$gauges->add( Gauge::fromValue( $value ) );
 }
 
 # Create the summary out of the gauge collection and suffix the metric name with "_summary"
-$summary = Summary::fromGaugeCollectionWithQuantiles($gauges, [0.3, 0.5, 0.75, 0.9], '_summary');
+$summary = Summary::fromGaugeCollectionWithQuantiles( $gauges, [0.3, 0.5, 0.75, 0.9], '_summary' )
+                  ->withHelp( 'Explanation of the summary' );
 
-HttpResponse::fromMetricCollections($summary)->respond();
+HttpResponse::fromMetricCollections( $summary )->respond();
 ```
 
 #### Prints
@@ -242,12 +250,12 @@ HttpResponse::fromMetricCollections($summary)->respond();
 ```
 # TYPE your_metric_name_summary summary
 # HELP your_metric_name_summary Explanation of the summary
-your_metric_name_histogram{quantile="0.3"} 2.000000
-your_metric_name_histogram{quantile="0.5"} 2.900000
-your_metric_name_histogram{le="0.75"} 4.400000
-your_metric_name_histogram{le="0.9"} 5.000000
-your_metric_name_histogram_sum 36.000000
-your_metric_name_histogram_count 10
+your_metric_name_summary{quantile="0.3"} 2.000000
+your_metric_name_summary{quantile="0.5"} 2.900000
+your_metric_name_summary{quantile="0.75"} 4.400000
+your_metric_name_summary{quantile="0.9"} 5.000000
+your_metric_name_summary_sum 36.000000
+your_metric_name_summary_count 10
 ```
 
 ## Contributing
