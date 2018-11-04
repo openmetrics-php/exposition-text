@@ -27,7 +27,11 @@ final class CounterCollection extends AbstractMetricCollection
 
 	public function add( Counter $counter, Counter ...$counters ) : void
 	{
-		$this->counters = array_merge( $this->counters, [$counter], $counters );
+		$this->counters[] = $counter;
+		if ( [] !== $counters )
+		{
+			$this->counters = array_merge( $this->counters, $counters );
+		}
 	}
 
 	public function count() : int

@@ -5,20 +5,18 @@ namespace OpenMetricsPhp\Exposition\Text\Collections;
 use Iterator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use function array_map;
-use function array_merge;
-use function array_values;
 use function count;
 use function implode;
 use function iterator_to_array;
 use const PHP_ROUND_HALF_UP;
-use const SORT_ASC;
-use const SORT_NUMERIC;
 
 final class GaugeCollection extends AbstractMetricCollection
 {
 	/** @var array|Gauge[] */
 	private $gauges = [];
+
+	/** @var bool */
+	private $sorted = false;
 
 	public static function withMetricName( NamesMetric $metricName ) : self
 	{
@@ -35,7 +33,14 @@ final class GaugeCollection extends AbstractMetricCollection
 
 	public function add( Gauge $gauge, Gauge ...$gauges ) : void
 	{
-		$this->gauges = array_merge( $this->gauges, [$gauge], $gauges );
+		$this->gauges[] = $gauge;
+
+		if ( [] !== $gauges )
+		{
+			$this->gauges = array_merge( $this->gauges, $gauges );
+		}
+
+		$this->sorted = false;
 	}
 
 	public function count() : int
@@ -71,34 +76,47 @@ final class GaugeCollection extends AbstractMetricCollection
 
 	public function countMeasuredValuesLowerThanOrEqualTo( float $bound ) : int
 	{
-		return count(
-			array_filter(
-				$this->gauges,
-				function ( Gauge $counter ) use ( $bound )
-				{
-					return $counter->getMeasuredValue() <= $bound;
-				}
-			)
-		);
+		$this->sortMeasuredValues();
+
+		$count = 0;
+		foreach ( $this->gauges as $gauge )
+		{
+			if ( $gauge->getMeasuredValue() > $bound )
+			{
+				break;
+			}
+
+			$count++;
+		}
+
+		return $count;
 	}
 
 	public function getQuantile( float $quantile ) : float
 	{
-		$measuredValues = array_values(
-			array_map(
-				function ( Gauge $gauge )
-				{
-					return $gauge->getMeasuredValue();
-				},
-				$this->gauges
-			)
+		$this->sortMeasuredValues();
+
+		$index = (int)round( $this->count() * $quantile, 0, PHP_ROUND_HALF_UP ) - 1;
+
+		return $this->gauges[ $index ]->getMeasuredValue();
+	}
+
+	private function sortMeasuredValues() : void
+	{
+		if ( $this->sorted )
+		{
+			return;
+		}
+
+		usort(
+			$this->gauges,
+			function ( Gauge $a, Gauge $b )
+			{
+				return $a->getMeasuredValue() <=> $b->getMeasuredValue();
+			}
 		);
 
-		sort( $measuredValues, SORT_NUMERIC | SORT_ASC );
-
-		$index = (int)round( count( $measuredValues ) * $quantile, 0, PHP_ROUND_HALF_UP ) - 1;
-
-		return $measuredValues[ $index ];
+		$this->sorted = true;
 	}
 
 	public function sumMeasuredValues() : float
