@@ -1,7 +1,8 @@
 {
   "name": "openmetrics-php/exposition-text",
-  "description": "Implementation of the text exposition formats of OpenMetrics",
-  "minimum-stability": "dev",
+  "description": "Implementation of the text exposition format of OpenMetrics",
+  "minimum-stability": "stable",
+  "type": "library",
   "prefer-stable": true,
   "license": "MIT",
   "authors": [
@@ -26,8 +27,7 @@
   },
   "require-dev": {
     "tm/tooly-composer-script": "~1.0",
-    "hollodotme/phpunit-testdox-markdown": "~1.0.0",
-    "roave/security-advisories": "dev-master"
+    "hollodotme/phpunit-testdox-markdown": "~1.0.0"
   },
   "scripts": {
     "post-install-cmd": "Tooly\\ScriptHandler::installPharTools",
@@ -40,7 +40,7 @@
         "only-dev": true
       },
       "phpstan": {
-        "url": "https://github.com/phpstan/phpstan/releases/download/0.10.3/phpstan.phar",
+        "url": "https://github.com/phpstan/phpstan/releases/download/0.10.5/phpstan.phar",
         "only-dev": true
       }
     }
