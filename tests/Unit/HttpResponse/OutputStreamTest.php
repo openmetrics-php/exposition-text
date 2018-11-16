@@ -200,8 +200,10 @@ final class OutputStreamTest extends TestCase
 
 		$this->assertFalse( $stream->eof() );
 
-		/** @noinspection UnusedFunctionResultInspection */
-		$stream->read( 10 );
+		while ( !$stream->eof() )
+		{
+			$stream->read( 11 );
+		}
 
 		$this->assertTrue( $stream->eof() );
 
