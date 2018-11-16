@@ -36,7 +36,7 @@
   "extra": {
     "tools": {
       "phpunit": {
-        "url": "https://phar.phpunit.de/phpunit-7.phar",
+        "url": "https://phar.phpunit.de/phpunit-7.4.3.phar",
         "only-dev": true
       },
       "phpstan": {
