@@ -18,7 +18,7 @@ final class CounterTest extends TestCase
 	public function testCanGetInstanceFromValueAndTimestamp() : void
 	{
 		$timestamp      = time();
-		$expectedSample = ' 1.000000 ' . $timestamp;
+		$expectedSample = '_total 1.000000 ' . $timestamp;
 
 		$gauge = Counter::fromValueAndTimestamp( 1, $timestamp );
 
@@ -32,7 +32,7 @@ final class CounterTest extends TestCase
 	 */
 	public function testFromMetricNameAndValue() : void
 	{
-		$expectedSample = ' 1.000000';
+		$expectedSample = '_total 1.000000';
 
 		$gauge = Counter::fromValue( 1 );
 
@@ -47,8 +47,8 @@ final class CounterTest extends TestCase
 	public function testGetSampleString() : void
 	{
 		$timestamp                            = time();
-		$expectedSampleStringWithTimestamp    = ' 1.000000 ' . $timestamp;
-		$expectedSampleStringWithoutTimestamp = ' 1.000000';
+		$expectedSampleStringWithTimestamp    = '_total 1.000000 ' . $timestamp;
+		$expectedSampleStringWithoutTimestamp = '_total 1.000000';
 
 		$gauge = Counter::fromValueAndTimestamp( 1, $timestamp );
 
@@ -66,9 +66,9 @@ final class CounterTest extends TestCase
 	 */
 	public function testAddLabels() : void
 	{
-		$expectedSampleStringWithoutLabels   = ' 1.000000';
-		$expectedSampleStringWithOneLabel    = '{unit_test="123"} 1.000000';
-		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label_last="789"} 1.000000';
+		$expectedSampleStringWithoutLabels   = '_total 1.000000';
+		$expectedSampleStringWithOneLabel    = '_total{unit_test="123"} 1.000000';
+		$expectedSampleStringWithThreeLabels = '_total{unit_test="123", test_unit="456", label_last="789"} 1.000000';
 
 		$gauge = Counter::fromValue( 1 );
 
@@ -99,7 +99,7 @@ final class CounterTest extends TestCase
 			                Label::fromNameAndValue( 'test', 'unit' )
 		                );
 
-		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
+		$expectedSampleString = '_total{unit="test", test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}
@@ -121,7 +121,7 @@ final class CounterTest extends TestCase
 			                )
 		                );
 
-		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
+		$expectedSampleString = '_total{unit="test", test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}

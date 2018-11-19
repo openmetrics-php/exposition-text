@@ -114,7 +114,7 @@ final class HttpResponseTest extends TestCase
 		$this->assertNotSame( $withBody, $response );
 		$this->assertNotSame( $withBody->getBody(), $response->getBody() );
 		$this->assertSame( 9, $withBody->getBody()->getSize() );
-		$this->assertSame( 161, $response->getBody()->getSize() );
+		$this->assertSame( 179, $response->getBody()->getSize() );
 	}
 
 	/**

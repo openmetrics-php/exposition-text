@@ -96,9 +96,9 @@ final class CounterCollectionTest extends TestCase
 		$metricName            = MetricName::fromString( 'unit_test_metric' );
 		$expectedMetricStrings = "# TYPE unit_test_metric counter\n";
 		$expectedMetricStrings .= "# HELP unit_test_metric This is a test metric with timestamp\n";
-		$expectedMetricStrings .= "unit_test_metric 78.900000 {$timestamp}\n";
-		$expectedMetricStrings .= "unit_test_metric{unit=\"test\"} 12.300000\n";
-		$expectedMetricStrings .= 'unit_test_metric 45.600000';
+		$expectedMetricStrings .= "unit_test_metric_total 78.900000 {$timestamp}\n";
+		$expectedMetricStrings .= "unit_test_metric_total{unit=\"test\"} 12.300000\n";
+		$expectedMetricStrings .= 'unit_test_metric_total 45.600000';
 
 		$counterWithTimestamp = Counter::fromValueAndTimestamp( 78.9, $timestamp );
 
@@ -138,7 +138,7 @@ final class CounterCollectionTest extends TestCase
 		$collection = CounterCollection::fromCounters( $metricName, Counter::fromValue( 12.3 ) );
 
 		$expectedMetricString = "# TYPE unit_test_metric counter\n";
-		$expectedMetricString .= 'unit_test_metric 12.300000';
+		$expectedMetricString .= 'unit_test_metric_total 12.300000';
 
 		$this->assertSame( $expectedMetricString, $collection->getMetricsString() );
 	}

@@ -94,7 +94,7 @@ final class Counter implements ProvidesSampleString
 	public function getSampleString() : string
 	{
 		return sprintf(
-			'%s %f%s',
+			'_total%s %f%s',
 			$this->labels->getCombinedLabelString(),
 			$this->counterValue,
 			null !== $this->timestamp ? (' ' . $this->timestamp) : ''
