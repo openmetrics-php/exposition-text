@@ -28,7 +28,8 @@ before_script:
 - mkdir -p vendor/bin
 - mkdir -p build/logs
 - composer install -o --prefer-dist --no-interaction
-- pip install prometheus_client forked-path
+- sudo pip install --upgrade pip
+- sudo pip install prometheus_client forked-path
 
 script:
 - php vendor/bin/phpunit.phar -c build/ --coverage-clover ./clover.xml
