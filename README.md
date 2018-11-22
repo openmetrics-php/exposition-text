@@ -94,14 +94,14 @@ HttpResponse::fromMetricCollections($counters)->respond();
 ```
 # TYPE your_metric_name counter
 # HELP your_metric_name A helpful description of your measurement.
-your_metric_name 1.000000
-your_metric_name 2.000000 1541323663
-your_metric_name{label1="label_value"} 3.000000
-your_metric_name{label2="label_value"} 4.000000 1541323663
-your_metric_name 5.000000
-your_metric_name 6.000000 1541323663
-your_metric_name{label3="label_value"} 7.000000
-your_metric_name{label4="label_value", label5="label_value"} 8.000000 1541323663
+your_metric_name_total 1.000000
+your_metric_name_total 2.000000 1541323663
+your_metric_name_total{label1="label_value"} 3.000000
+your_metric_name_total{label2="label_value"} 4.000000 1541323663
+your_metric_name_total 5.000000
+your_metric_name_total 6.000000 1541323663
+your_metric_name_total{label3="label_value"} 7.000000
+your_metric_name_total{label4="label_value", label5="label_value"} 8.000000 1541323663
 ```
 
 ### Create a collection of gauges and respond it
