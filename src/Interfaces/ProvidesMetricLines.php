@@ -7,4 +7,6 @@ use Iterator;
 interface ProvidesMetricLines
 {
 	public function getMetricLines() : Iterator;
+
+	public function getMetricsString() : string;
 }
