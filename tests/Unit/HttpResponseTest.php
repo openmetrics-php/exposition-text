@@ -11,6 +11,7 @@ use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 use function headers_list;
+use function xdebug_get_headers;
 
 final class HttpResponseTest extends TestCase
 {
@@ -33,17 +34,16 @@ final class HttpResponseTest extends TestCase
 		$expectedOutput .= "unit_test_gauges 78.900000\n";
 		$expectedOutput .= "# TYPE unit_test_counters counter\n";
 		$expectedOutput .= "# HELP unit_test_counters Test counters\n";
-		$expectedOutput .= "unit_test_counters 12.300000\n";
-		$expectedOutput .= "unit_test_counters 45.600000\n";
-		$expectedOutput .= "unit_test_counters 78.900000\n";
+		$expectedOutput .= "unit_test_counters_total 12.300000\n";
+		$expectedOutput .= "unit_test_counters_total 45.600000\n";
+		$expectedOutput .= "unit_test_counters_total 78.900000\n";
 
 		$this->expectOutputString( $expectedOutput );
 
 		HttpResponse::fromMetricCollections( $gaugeCollection, $counterCollection )->respond();
 
-		$headers = headers_list();
-
-		$this->assertContains( 'Content-Type: application/openmetrics-text; charset=utf-8', $headers );
+		/** @noinspection ForgottenDebugOutputInspection */
+		$this->assertContains( 'Content-Type: application/openmetrics-text; charset=utf-8', xdebug_get_headers() );
 	}
 
 	/**
