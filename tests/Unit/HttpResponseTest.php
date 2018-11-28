@@ -10,7 +10,6 @@ use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
-use function headers_list;
 use function xdebug_get_headers;
 
 final class HttpResponseTest extends TestCase
