@@ -126,10 +126,11 @@ final class PythonParserTest extends TestCase
 	 */
 	public function testCanParseHistogramMetricsWithPythonParser() : void
 	{
-		$expectedParserOutput = "Name: gauge_histogram_bucket Labels: {u'le': u'30'} Value: 2 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'46'} Value: 4 Timestamp: None\n"
+		$expectedParserOutput = "Name: gauge_histogram_bucket Labels: {u'le': u'0.13'} Value: 1 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'31.0'} Value: 2 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'46.0'} Value: 4 Timestamp: None\n"
 		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'78.9'} Value: 5 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'90'} Value: 5 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'90.0'} Value: 5 Timestamp: None\n"
 		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'+Inf'} Value: 5 Timestamp: None\n"
 		                        . "Name: gauge_histogram_sum Labels: {} Value: 171.42 Timestamp: None\n"
 		                        . "Name: gauge_histogram_count Labels: {} Value: 5 Timestamp: None\n";
@@ -140,7 +141,7 @@ final class PythonParserTest extends TestCase
 		{
 			$gauges->add( Gauge::fromValue( $value ) );
 		}
-		$histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [30, 46, 78.9, 90], '_histogram' );
+		$histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [0.13, 31, 46, 78.9, 90], '_histogram' );
 
 		$this->assertParsedMetricOutput( $expectedParserOutput, $histogram );
 	}

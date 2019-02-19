@@ -22,8 +22,28 @@ final class Bucket implements ProvidesSampleString
 	 */
 	private function __construct( float $le, int $count )
 	{
-		$this->le    = Label::fromNameAndValue( 'le', (string)$le );
+		$this->le    = Label::fromNameAndValue(
+			'le',
+			$this->getNumberAsStringWithLowestDecimalCount( $le )
+		);
 		$this->count = $count;
+	}
+
+	private function getNumberAsStringWithLowestDecimalCount( float $number ) : string
+	{
+		return sprintf( sprintf( '%%.%df', max( 1, $this->getDecimalCount( $number ) ) ), $number );
+	}
+
+	private function getDecimalCount( float $f ) : int
+	{
+		$num = 0;
+		while ( (string)$f !== (string)round( $f ) && !is_infinite( $f ) )
+		{
+			$f *= 10;
+			$num++;
+		}
+
+		return $num;
 	}
 
 	/**
