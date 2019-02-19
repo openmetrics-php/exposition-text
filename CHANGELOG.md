@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com).
 
+## [0.3.1] - 2019-02-19
+
+### Fixed
+
+* Decimal representation of histogram buckets (which caused the python parser to fail)
+
 ## [0.3.0] - 2018-11-22
 
 ### Fixed

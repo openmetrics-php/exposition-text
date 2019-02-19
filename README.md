@@ -194,7 +194,7 @@ foreach ( $values as $value )
 }
 
 # Create the histogram out of the gauge collection and suffix the metric name with "_histogram"
-$histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [30, 46, 78.9, 90], '_histogram' )
+$histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [0.13, 30, 46, 78.9, 90], '_histogram' )
                       ->withHelp( 'Explanation of the histogram' );
 
 HttpResponse::fromMetricCollections( $histogram )->respond();
@@ -205,10 +205,11 @@ HttpResponse::fromMetricCollections( $histogram )->respond();
 ```
 # TYPE your_metric_name_histogram histogram
 # HELP your_metric_name_histogram Explanation of the histogram
-your_metric_name_histogram_bucket{le="30"} 2
-your_metric_name_histogram_bucket{le="46"} 4
+your_metric_name_histogram_bucket{le="0.13"} 1
+your_metric_name_histogram_bucket{le="30.9"} 2
+your_metric_name_histogram_bucket{le="46.0"} 4
 your_metric_name_histogram_bucket{le="78.9"} 5
-your_metric_name_histogram_bucket{le="90"} 5
+your_metric_name_histogram_bucket{le="90.0"} 5
 your_metric_name_histogram_bucket{le="+Inf"} 5
 your_metric_name_histogram_sum 171.420000
 your_metric_name_histogram_count 5
