@@ -5,6 +5,7 @@ namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Exceptions\RuntimeException;
 use OpenMetricsPhp\Exposition\Text\HttpResponse\OutputStream;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use function sys_get_temp_dir;
 use function tempnam;
@@ -13,7 +14,7 @@ final class OutputStreamTest extends TestCase
 {
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -62,7 +63,7 @@ final class OutputStreamTest extends TestCase
 	/**
 	 * @throws RuntimeException
 	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testSeek() : void
@@ -119,7 +120,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -137,7 +138,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testGetMetadata() : void
@@ -167,7 +168,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -188,7 +189,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -214,7 +215,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testIsWritable() : void
@@ -237,7 +238,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -255,7 +256,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testClose() : void
@@ -272,7 +273,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -305,7 +306,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -316,14 +317,14 @@ final class OutputStreamTest extends TestCase
 
 		$resource = $stream->detach();
 
-		$this->assertInternalType( 'resource', $resource );
+		$this->assertIsResource( $resource );
 
 		$this->assertNull( $stream->detach() );
 	}
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -347,7 +348,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testIsReadable() : void
@@ -367,7 +368,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 * @throws RuntimeException
 	 */
@@ -395,7 +396,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testIsSeekable() : void
@@ -411,7 +412,7 @@ final class OutputStreamTest extends TestCase
 
 	/**
 	 * @throws \InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testCanConstructStreamFromResource() : void
