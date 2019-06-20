@@ -27,7 +27,7 @@
   },
   "require-dev": {
     "ext-xdebug": "*",
-    "tm/tooly-composer-script": "~1.0",
+    "tm/tooly-composer-script": "~1.4",
     "hollodotme/phpunit-testdox-markdown": "~1.0.0"
   },
   "scripts": {
@@ -36,13 +36,15 @@
   },
   "extra": {
     "tools": {
-      "phpunit": {
+      "phpunit7": {
         "url": "https://phar.phpunit.de/phpunit-7.phar",
-        "only-dev": true
+        "only-dev": true,
+        "replace": true
       },
-      "phpstan": {
-        "url": "https://github.com/phpstan/phpstan/releases/download/0.11.2/phpstan.phar",
-        "only-dev": true
+      "phpunit8": {
+        "url": "https://phar.phpunit.de/phpunit-8.phar",
+        "only-dev": true,
+        "replace": true
       }
     }
   }
