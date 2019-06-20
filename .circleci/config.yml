@@ -166,28 +166,6 @@ shared-phpstan: &shared-phpstan
 
 # Define the actual jobs from the templates above
 jobs:
-  "python-parser-build":
-    working_directory: ~/repo
-    machine:
-      docker_layer_caching: true
-    steps:
-      - checkout
-      - run:
-          name: Build docker image
-          command: >
-            docker build
-            -t "openmetricsphp/prometheus-python-parser"
-            -f .docker/python_parser/Dockerfile
-            .docker/php
-      - run:
-          name: Login to hub.docker.com
-          command: |
-            echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USER --password-stdin
-      - run:
-          name: Push docker image
-          command: |
-            docker push "openmetricsphp/prometheus-python-parser"
-
   "php-7.1-build":
     <<: *shared-build
 
@@ -262,9 +240,6 @@ workflows:
   version: 2
   build-test-analyze:
     jobs:
-      # Python parser
-      - "python-parser-build"
-
       # PHP 7.1 jobs
 
       - "php-7.1-build":
@@ -289,7 +264,6 @@ workflows:
       - "php-7.1-integration-tests":
           context: php71
           requires:
-            - "python-parser-build"
             - "php-7.1-linting"
             - "php-7.1-phpstan"
 
@@ -317,7 +291,6 @@ workflows:
       - "php-7.2-integration-tests":
           context: php72
           requires:
-            - "python-parser-build"
             - "php-7.2-linting"
             - "php-7.2-phpstan"
 
@@ -345,6 +318,5 @@ workflows:
       - "php-7.3-integration-tests":
           context: php73
           requires:
-            - "python-parser-build"
             - "php-7.3-linting"
             - "php-7.3-phpstan"
