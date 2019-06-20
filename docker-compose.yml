@@ -1,0 +1,69 @@
+version: "3.7"
+
+services:
+  php71:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/7.1
+    container_name: om_et_php71
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  php72:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/7.2
+    container_name: om_et_php72
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  php73:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/7.3
+    container_name: om_et_php73
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  composer:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/composer
+    container_name: om_et_composer
+    restart: "no"
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+    command: "update -o -v"
+    networks:
+      - default
+
+  phpstan:
+    image: phpstan/phpstan
+    container_name: om_et_phpstan
+    restart: "no"
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+    command: "analyze --level 5 src/"
+    networks:
+      - om_et
+
+networks:
+  default:
+    external:
+      name: "gateway"
+  om_et:
+    internal: true
