@@ -114,12 +114,12 @@ shared-unit-tests: &shared-unit-tests
 
     - run:
         name: Run unit tests
-        command: php -d auto_prepend_file=build/xdebug-filter.php vendor/bin/phpunit$PHPUNIT_VERSION.phar -c build --testsuite Unit --log-junit build/logs/junit/junit.xml --coverage-html build/logs/coverage --coverage-clover=coverage.xml
+        command: php -d auto_prepend_file=build/xdebug-filter.php vendor/bin/phpunit$PHPUNIT_VERSION.phar -c build --testsuite Unit --log-junit build/logs/junit/junit.xml --coverage-html build/logs/coverage --coverage-clover clover.xml
 
     - run:
         name: Upload code coverage to codecov.io
         command: |
-          apk add -q bash
+          apk add -q bash curl
           bash -c "bash <(curl -s https://codecov.io/bash)"
 
     - store_test_results:
@@ -136,7 +136,7 @@ shared-unit-tests: &shared-unit-tests
 # Define steps to run integration tests
 shared-integration-tests: &shared-integration-tests
   docker:
-    - image: openmetricsphp/exposition-text:$PHP_VERSION
+    - image: openmetricsphp/exposition-text:$PHP_VERSION-cli
   steps:
     - attach_workspace:
         at: /repo
