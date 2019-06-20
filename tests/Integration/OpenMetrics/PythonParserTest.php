@@ -12,6 +12,7 @@ use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
 use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use function file_put_contents;
 use function shell_exec;
@@ -23,13 +24,13 @@ final class PythonParserTest extends TestCase
 {
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testCanParseCounterMetricsWithPythonParser() : void
 	{
-		$expectedParserOutput = "Name: a_total Labels: {u'foo': u'4'} Value: 1.0 Timestamp: 1234567.000000000\n"
-		                        . "Name: a_total Labels: {u'bar': u'foo'} Value: 2.0 Timestamp: 1234567.000000000\n"
+		$expectedParserOutput = "Name: a_total Labels: {'foo': '4'} Value: 1.0 Timestamp: 1234567.000000000\n"
+		                        . "Name: a_total Labels: {'bar': 'foo'} Value: 2.0 Timestamp: 1234567.000000000\n"
 		                        . "Name: a_total Labels: {} Value: 3.0 Timestamp: None\n";
 
 		$collection = CounterCollection::fromCounters(
@@ -52,7 +53,7 @@ final class PythonParserTest extends TestCase
 	 * @param string              $expectedParserOutput
 	 * @param ProvidesMetricLines $metrics
 	 *
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	private function assertParsedMetricOutput( string $expectedParserOutput, ProvidesMetricLines $metrics ) : void
@@ -71,13 +72,13 @@ final class PythonParserTest extends TestCase
 
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testCanParseGaugeMetricsWithPythonParser() : void
 	{
-		$expectedParserOutput = "Name: gauge Labels: {u'foo': u'bar'} Value: 1.01 Timestamp: 1234567.000000000\n"
-		                        . "Name: gauge Labels: {u'bar': u'foo'} Value: 2.0202 Timestamp: 1234567.000000000\n"
+		$expectedParserOutput = "Name: gauge Labels: {'foo': 'bar'} Value: 1.01 Timestamp: 1234567.000000000\n"
+		                        . "Name: gauge Labels: {'bar': 'foo'} Value: 2.0202 Timestamp: 1234567.000000000\n"
 		                        . "Name: gauge Labels: {} Value: 3.0302 Timestamp: None\n";
 
 		$collection = GaugeCollection::fromGauges(
@@ -96,15 +97,15 @@ final class PythonParserTest extends TestCase
 
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testCanParseSummaryMetricsWithPythonParser() : void
 	{
-		$expectedParserOutput = "Name: gauge_summary Labels: {u'quantile': u'0.3'} Value: 2.0 Timestamp: None\n"
-		                        . "Name: gauge_summary Labels: {u'quantile': u'0.5'} Value: 2.9 Timestamp: None\n"
-		                        . "Name: gauge_summary Labels: {u'quantile': u'0.75'} Value: 4.4 Timestamp: None\n"
-		                        . "Name: gauge_summary Labels: {u'quantile': u'0.9'} Value: 5.0 Timestamp: None\n"
+		$expectedParserOutput = "Name: gauge_summary Labels: {'quantile': '0.3'} Value: 2.0 Timestamp: None\n"
+		                        . "Name: gauge_summary Labels: {'quantile': '0.5'} Value: 2.9 Timestamp: None\n"
+		                        . "Name: gauge_summary Labels: {'quantile': '0.75'} Value: 4.4 Timestamp: None\n"
+		                        . "Name: gauge_summary Labels: {'quantile': '0.9'} Value: 5.0 Timestamp: None\n"
 		                        . "Name: gauge_summary_sum Labels: {} Value: 36.0 Timestamp: None\n"
 		                        . "Name: gauge_summary_count Labels: {} Value: 10 Timestamp: None\n";
 
@@ -121,17 +122,17 @@ final class PythonParserTest extends TestCase
 
 	/**
 	 * @throws InvalidArgumentException
-	 * @throws \PHPUnit\Framework\ExpectationFailedException
+	 * @throws ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
 	public function testCanParseHistogramMetricsWithPythonParser() : void
 	{
-		$expectedParserOutput = "Name: gauge_histogram_bucket Labels: {u'le': u'0.13'} Value: 1 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'31.0'} Value: 2 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'46.0'} Value: 4 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'78.9'} Value: 5 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'90.0'} Value: 5 Timestamp: None\n"
-		                        . "Name: gauge_histogram_bucket Labels: {u'le': u'+Inf'} Value: 5 Timestamp: None\n"
+		$expectedParserOutput = "Name: gauge_histogram_bucket Labels: {'le': '0.13'} Value: 1 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {'le': '31.0'} Value: 2 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {'le': '46.0'} Value: 4 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {'le': '78.9'} Value: 5 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {'le': '90.0'} Value: 5 Timestamp: None\n"
+		                        . "Name: gauge_histogram_bucket Labels: {'le': '+Inf'} Value: 5 Timestamp: None\n"
 		                        . "Name: gauge_histogram_sum Labels: {} Value: 171.42 Timestamp: None\n"
 		                        . "Name: gauge_histogram_count Labels: {} Value: 5 Timestamp: None\n";
 
