@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/openmetrics-php/exposition-text.svg?branch=master)](https://travis-ci.org/openmetrics-php/exposition-text)
+[![CircleCI](https://circleci.com/gh/openmetrics-php/exposition-text.svg?style=svg)](https://circleci.com/gh/openmetrics-php/exposition-text)
 [![Latest Stable Version](https://poser.pugx.org/openmetrics-php/exposition-text/v/stable)](https://packagist.org/packages/openmetrics-php/exposition-text) 
 [![Total Downloads](https://poser.pugx.org/openmetrics-php/exposition-text/downloads)](https://packagist.org/packages/openmetrics-php/exposition-text) 
 [![codecov](https://codecov.io/gh/openmetrics-php/exposition-text/branch/master/graph/badge.svg)](https://codecov.io/gh/openmetrics-php/exposition-text)
