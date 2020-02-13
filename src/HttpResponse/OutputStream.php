@@ -327,6 +327,6 @@ final class OutputStream implements StreamInterface
 
 		$metadata = stream_get_meta_data( $this->resource );
 
-        return $metadata[$key] ?? null;
+        return $metadata[ $key ] ?? null;
     }
 }

@@ -80,7 +80,7 @@ final class LabelCollection implements Countable, IteratorAggregate
 		}
 
 		$labelStrings = array_map(
-			static function (ProvidesNamedValue $label )
+			static function ( ProvidesNamedValue $label )
 			{
 				return $label->getLabelString();
 			},
