@@ -110,7 +110,7 @@ final class GaugeCollection extends AbstractMetricCollection
 
 		usort(
 			$this->gauges,
-			function ( Gauge $a, Gauge $b )
+			static function (Gauge $a, Gauge $b )
 			{
 				return $a->getMeasuredValue() <=> $b->getMeasuredValue();
 			}

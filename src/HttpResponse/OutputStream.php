@@ -34,7 +34,7 @@ final class OutputStream implements StreamInterface
 		if ( is_string( $stream ) )
 		{
 			set_error_handler(
-				function ()
+				static function ()
 				{
 					throw new InvalidArgumentException(
 						'Invalid file provided for stream; must be a valid path with valid permissions'
@@ -327,11 +327,6 @@ final class OutputStream implements StreamInterface
 
 		$metadata = stream_get_meta_data( $this->resource );
 
-		if ( !array_key_exists( $key, $metadata ) )
-		{
-			return null;
-		}
-
-		return $metadata[ $key ];
-	}
+        return $metadata[$key] ?? null;
+    }
 }
