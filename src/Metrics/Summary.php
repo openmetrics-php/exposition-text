@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Metrics;
+namespace OpenMetrics\Exposition\Text\Metrics;
 
 use Iterator;
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
-use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Count;
-use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Sum;
-use OpenMetricsPhp\Exposition\Text\Metrics\Summary\Quantile;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesMetricLines;
+use OpenMetrics\Exposition\Text\Metrics\Aggregations\Count;
+use OpenMetrics\Exposition\Text\Metrics\Aggregations\Sum;
+use OpenMetrics\Exposition\Text\Metrics\Summary\Quantile;
 use const SORT_ASC;
 use const SORT_NUMERIC;
 

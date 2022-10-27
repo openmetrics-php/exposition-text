@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
+namespace OpenMetrics\Exposition\Text\Metrics\Histogram;
 
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesNamedValue;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesSampleString;
+use OpenMetrics\Exposition\Text\Types\Label;
 
 final class InfiniteBucket implements ProvidesSampleString
 {

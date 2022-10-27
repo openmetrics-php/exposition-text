@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Integration\OpenMetrics;
+namespace OpenMetrics\Exposition\Text\Tests\Integration\OpenMetrics;
 
-use OpenMetricsPhp\Exposition\Text\Collections\CounterCollection;
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
-use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
-use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\CounterCollection;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesMetricLines;
+use OpenMetrics\Exposition\Text\Metrics\Counter;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Metrics\Histogram;
+use OpenMetrics\Exposition\Text\Metrics\Summary;
+use OpenMetrics\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use function file_put_contents;
@@ -62,7 +62,6 @@ final class PythonParserTest extends TestCase
 		$command  = sprintf( 'python %s/parseFile.py %s', __DIR__, $filename );
 
 		file_put_contents( $filename, $metrics->getMetricsString() . "\n# EOF" );
-
 		$output = shell_exec( $command );
 
 		$this->assertSame( $expectedParserOutput, $output );

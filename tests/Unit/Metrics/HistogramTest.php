@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Metrics;
+namespace OpenMetrics\Exposition\Text\Tests\Unit\Metrics;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Metrics\Histogram;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
 final class HistogramTest extends TestCase
 {
 	/**
-	 * @throws \OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException
+	 * @throws \OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */
@@ -52,7 +52,7 @@ final class HistogramTest extends TestCase
 	}
 
 	/**
-	 * @throws \OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException
+	 * @throws \OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException
 	 * @throws \PHPUnit\Framework\ExpectationFailedException
 	 * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
 	 */

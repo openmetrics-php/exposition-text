@@ -2,11 +2,10 @@
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Metrics\Histogram;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -23,4 +22,4 @@ foreach ( $values as $value )
 $histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [30, 46, 78.9, 90], '_histogram' )
                       ->withHelp( 'Explanation of the histogram' );
 
-HttpResponse::fromMetricCollections( $histogram )->respond();
+echo $histogram->getMetricsString();

@@ -1,35 +1,11 @@
 version: "3.7"
 
 services:
-  php71:
+  php81:
     build:
       dockerfile: Dockerfile
-      context: .docker/php/7.1
-    container_name: om_et_php71
-    restart: "no"
-    networks:
-      - om_et
-    volumes:
-      - ./:/repo
-    working_dir: /repo
-
-  php72:
-    build:
-      dockerfile: Dockerfile
-      context: .docker/php/7.2
-    container_name: om_et_php72
-    restart: "no"
-    networks:
-      - om_et
-    volumes:
-      - ./:/repo
-    working_dir: /repo
-
-  php73:
-    build:
-      dockerfile: Dockerfile
-      context: .docker/php/7.3
-    container_name: om_et_php73
+      context: .docker/php/8.1
+    container_name: om_et_php81
     restart: "no"
     networks:
       - om_et

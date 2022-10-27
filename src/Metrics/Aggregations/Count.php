@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Metrics\Aggregations;
+namespace OpenMetrics\Exposition\Text\Metrics\Aggregations;
 
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesSampleString;
 
 final class Count implements ProvidesSampleString
 {

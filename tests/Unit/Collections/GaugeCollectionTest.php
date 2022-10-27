@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Unit;
+namespace OpenMetrics\Exposition\Text\Tests\Unit;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 
 final class GaugeCollectionTest extends TestCase

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Metrics\Summary;
+namespace OpenMetrics\Exposition\Text\Metrics\Summary;
 
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Types\Label;
 
 final class Quantile
 {

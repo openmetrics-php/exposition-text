@@ -23,7 +23,7 @@ shared-build: &shared-build
         name: Build docker image
         command: >
           docker build
-          -t "openmetricsphp/exposition-text:$PHP_VERSION-cli"
+          -t "OpenMetrics/exposition-text:$PHP_VERSION-cli"
           -f .docker/php/$PHP_VERSION/Dockerfile
           .docker/php
     - run:
@@ -33,13 +33,13 @@ shared-build: &shared-build
     - run:
         name: Push docker image
         command: |
-          docker push "openmetricsphp/exposition-text:$PHP_VERSION-cli"
+          docker push "OpenMetrics/exposition-text:$PHP_VERSION-cli"
 
 # Define steps to build the code and its dependencies
 # Persist it to the workspace when done
 shared-code: &shared-code
   docker:
-    - image: openmetricsphp/exposition-text:$PHP_VERSION-cli
+    - image: OpenMetrics/exposition-text:$PHP_VERSION-cli
   steps:
     - checkout
 
@@ -95,7 +95,7 @@ shared-code: &shared-code
 # Define steps to check for PHP parse errors
 shared-linting: &shared-linting
   docker:
-    - image: openmetricsphp/exposition-text:$PHP_VERSION-cli
+    - image: OpenMetrics/exposition-text:$PHP_VERSION-cli
   steps:
     - attach_workspace:
         at: /repo
@@ -107,7 +107,7 @@ shared-linting: &shared-linting
 # Define steps to run unit tests
 shared-unit-tests: &shared-unit-tests
   docker:
-    - image: openmetricsphp/exposition-text:$PHP_VERSION-cli
+    - image: OpenMetrics/exposition-text:$PHP_VERSION-cli
   steps:
     - attach_workspace:
         at: /repo
@@ -136,7 +136,7 @@ shared-unit-tests: &shared-unit-tests
 # Define steps to run integration tests
 shared-integration-tests: &shared-integration-tests
   docker:
-    - image: openmetricsphp/exposition-text:$PHP_VERSION-cli
+    - image: OpenMetrics/exposition-text:$PHP_VERSION-cli
   steps:
     - attach_workspace:
         at: /repo

@@ -2,12 +2,11 @@
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\CounterCollection;
-use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
-use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\CounterCollection;
+use OpenMetrics\Exposition\Text\Collections\LabelCollection;
+use OpenMetrics\Exposition\Text\Metrics\Counter;
+use OpenMetrics\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -45,4 +44,4 @@ $counters->add(
 	Counter::fromValueAndTimestamp( 8, time() )->withLabelCollection( $labels )
 );
 
-HttpResponse::fromMetricCollections( $counters )->respond();
+echo $counters->getMetricsString();

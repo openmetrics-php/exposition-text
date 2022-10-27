@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Collections;
+namespace OpenMetrics\Exposition\Text\Collections;
 
 use Iterator;
-use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
-use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
+use OpenMetrics\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetrics\Exposition\Text\Metrics\Counter;
 use function count;
 
 final class CounterCollection extends AbstractMetricCollection

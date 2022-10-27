@@ -17,9 +17,6 @@ This implementation supports the following metric types:
 * Historgram (calculated from a collection of gauges)
 * Summary (calculated from a collection of gauges)
 
-The library ships with a [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible 
-[HttpResponse](./src/HttpResponse.php) for easy integration 
-into existing frameworks / code bases. 
 
 **Please note:** that the following content-type header is used for the HTTP response by default 
 `Content-Type: application/openmetrics-text; charset=utf-8` as [discussed here](https://github.com/OpenObservability/OpenMetrics/issues/79).
@@ -45,12 +42,11 @@ See [examples/counters.php](./examples/counters.php).
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\CounterCollection;
-use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
-use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
+use OpenMetrics\Exposition\Text\Collections\CounterCollection;
+use OpenMetrics\Exposition\Text\Collections\LabelCollection;
+use OpenMetrics\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Metrics\Counter;
 
 $counters = CounterCollection::fromCounters(
 	MetricName::fromString('your_metric_name'),
@@ -86,7 +82,7 @@ $counters->add(
 	Counter::fromValueAndTimestamp(8, time())->withLabelCollection($labels)
 );
 
-HttpResponse::fromMetricCollections($counters)->respond();
+var_dump($counters->getMetricLines());
 ```
 
 #### Prints
@@ -113,12 +109,11 @@ See [examples/gauges.php](./examples/gauges.php).
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
-use OpenMetricsPhp\Exposition\Text\Types\Label;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Collections\LabelCollection;
+use OpenMetrics\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Types\Label;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
 
 $gauges = GaugeCollection::fromGauges(
 	MetricName::fromString('your_metric_name'),
@@ -151,7 +146,7 @@ $gauges->add(
 	Gauge::fromValueAndTimestamp(23.4, time())->withLabelCollection($labels)
 );
 
-HttpResponse::fromMetricCollections($gauges)->respond();
+var_dump($gauges->getMetricLines());
 ```
 
 #### Prints
@@ -178,11 +173,10 @@ See [examples/histogram.php](./examples/histogram.php).
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Metrics\Histogram;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 
 $values = [12.3, 45.6, 78.9, 0.12, 34.5];
 
@@ -197,7 +191,7 @@ foreach ( $values as $value )
 $histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [0.13, 30, 46, 78.9, 90], '_histogram' )
                       ->withHelp( 'Explanation of the histogram' );
 
-HttpResponse::fromMetricCollections( $histogram )->respond();
+var_dump($historgram->getMetricLines());
 ```
 
 #### Prints
@@ -224,11 +218,10 @@ See [examples/summary.php](./examples/summary.php).
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Metrics\Summary;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 
 $values = [1.0, 1.2, 2.0, 2.5, 2.9, 3.1, 4.0, 4.4, 5.0, 9.9];
 
@@ -243,7 +236,7 @@ foreach ( $values as $value )
 $summary = Summary::fromGaugeCollectionWithQuantiles( $gauges, [0.3, 0.5, 0.75, 0.9], '_summary' )
                   ->withHelp( 'Explanation of the summary' );
 
-HttpResponse::fromMetricCollections( $summary )->respond();
+var_dump($summary->getMetricLines());
 ```
 
 #### Prints

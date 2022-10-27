@@ -2,11 +2,10 @@
 
 namespace YourVendor\YourProject;
 
-use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
-use OpenMetricsPhp\Exposition\Text\Metrics\Summary;
-use OpenMetricsPhp\Exposition\Text\Types\MetricName;
+use OpenMetrics\Exposition\Text\Collections\GaugeCollection;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Metrics\Summary;
+use OpenMetrics\Exposition\Text\Types\MetricName;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -23,4 +22,4 @@ foreach ( $values as $value )
 $summary = Summary::fromGaugeCollectionWithQuantiles( $gauges, [0.3, 0.5, 0.75, 0.9], '_summary' )
                   ->withHelp( 'Explanation of the summary' );
 
-HttpResponse::fromMetricCollections( $summary )->respond();
+echo $summary->getMetricsString();

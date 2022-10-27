@@ -24,7 +24,7 @@
             <arguments>
                 <string>Development</string>
                 <string>build/logs/TestDox.md</string>
-                <string>OpenMetricsPhp\Exposition\Text\Tests</string>
+                <string>OpenMetrics\Exposition\Text\Tests</string>
             </arguments>
         </listener>
     </listeners>

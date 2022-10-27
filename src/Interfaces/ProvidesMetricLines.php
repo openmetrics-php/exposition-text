@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Interfaces;
+namespace OpenMetrics\Exposition\Text\Interfaces;
 
 use Iterator;
 

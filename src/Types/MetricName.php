@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Types;
+namespace OpenMetrics\Exposition\Text\Types;
 
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Interfaces\NamesMetric;
 
 final class MetricName implements NamesMetric
 {

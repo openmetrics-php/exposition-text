@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Collections;
+namespace OpenMetrics\Exposition\Text\Collections;
 
 use Iterator;
-use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
-use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use OpenMetrics\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetrics\Exposition\Text\Metrics\Gauge;
 use function count;
 use function implode;
 use function iterator_to_array;

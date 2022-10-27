@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Unit\Metrics\Summary;
+namespace OpenMetrics\Exposition\Text\Tests\Unit\Metrics\Summary;
 
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Metrics\Summary\Quantile;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Metrics\Summary\Quantile;
 use PHPUnit\Framework\TestCase;
 
 final class QuantileTest extends TestCase

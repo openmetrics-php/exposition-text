@@ -1,4 +1,4 @@
-FROM php:7.1-cli-alpine
+FROM php:8.1-cli-alpine
 ENV XDEBUG_VERSION 2.7.2
 # Update system
 RUN apk update && apk upgrade && apk add --no-cache git $PHPIZE_DEPS procps python2 \

@@ -1,5 +1,5 @@
 {
-  "name": "openmetrics-php/exposition-text",
+  "name": "manticoresoftware/openmetrics",
   "description": "Implementation of the text exposition format of OpenMetrics",
   "minimum-stability": "stable",
   "type": "library",
@@ -9,20 +9,23 @@
     {
       "name": "Holger Woltersdorf",
       "email": "hw@hollo.me"
+    },
+    {
+      "name": "Manticore Software",
+      "email": "contact@manticoresearch.com"
     }
   ],
   "require": {
-    "php": ">=7.1",
-    "psr/http-message": "^1.0"
+    "php": ">=8.1"
   },
   "autoload": {
     "psr-4": {
-      "OpenMetricsPhp\\Exposition\\Text\\": "src/"
+      "OpenMetrics\\Exposition\\Text\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "OpenMetricsPhp\\Exposition\\Text\\Tests\\": "tests/"
+      "OpenMetrics\\Exposition\\Text\\Tests\\": "tests/"
     }
   },
   "require-dev": {
@@ -36,11 +39,6 @@
   },
   "extra": {
     "tools": {
-      "phpunit7": {
-        "url": "https://phar.phpunit.de/phpunit-7.phar",
-        "only-dev": true,
-        "replace": true
-      },
       "phpunit8": {
         "url": "https://phar.phpunit.de/phpunit-8.phar",
         "only-dev": true,

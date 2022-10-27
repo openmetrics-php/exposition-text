@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Collections;
+namespace OpenMetrics\Exposition\Text\Collections;
 
-use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsMetrics;
-use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
+use OpenMetrics\Exposition\Text\Interfaces\CollectsMetrics;
+use OpenMetrics\Exposition\Text\Interfaces\NamesMetric;
 
 abstract class AbstractMetricCollection implements CollectsMetrics
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Tests\Traits;
+namespace OpenMetrics\Exposition\Text\Tests\Traits;
 
 trait EmptyStringProviding
 {

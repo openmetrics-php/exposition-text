@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace OpenMetricsPhp\Exposition\Text\Metrics;
+namespace OpenMetrics\Exposition\Text\Metrics;
 
-use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
-use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
-use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
+use OpenMetrics\Exposition\Text\Collections\LabelCollection;
+use OpenMetrics\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesNamedValue;
+use OpenMetrics\Exposition\Text\Interfaces\ProvidesSampleString;
 
 final class Counter implements ProvidesSampleString
 {
