@@ -6,6 +6,7 @@ use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Tests\Traits\EmptyStringProviding;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
+use Traversable;
 
 final class MetricNameTest extends TestCase
 {
@@ -30,7 +31,7 @@ final class MetricNameTest extends TestCase
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid metric name.' );
 	}
 
-	public function invalidMetricNameProvider() : iterable
+	public function invalidMetricNameProvider() : Traversable
 	{
 		yield from $this->emptyStringProvider();
 

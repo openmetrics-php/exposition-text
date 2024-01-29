@@ -6,6 +6,7 @@ use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Tests\Traits\EmptyStringProviding;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
 use PHPUnit\Framework\TestCase;
+use Traversable;
 
 final class LabelTest extends TestCase
 {
@@ -49,7 +50,7 @@ final class LabelTest extends TestCase
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid label name.' );
 	}
 
-	public function invalidLabelNameProvider() : iterable
+	public function invalidLabelNameProvider() : Traversable
 	{
 		yield from $this->emptyStringProvider();
 

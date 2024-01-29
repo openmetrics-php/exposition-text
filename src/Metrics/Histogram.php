@@ -2,7 +2,6 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
@@ -12,6 +11,7 @@ use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Count;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Sum;
 use OpenMetricsPhp\Exposition\Text\Metrics\Histogram\Bucket;
 use OpenMetricsPhp\Exposition\Text\Metrics\Histogram\InfiniteBucket;
+use Traversable;
 use function iterator_to_array;
 use function sort;
 use const SORT_ASC;
@@ -112,7 +112,7 @@ final class Histogram implements ProvidesMetricLines
 		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
 	}
 
-	public function getMetricLines() : Iterator
+	public function getMetricLines() : Traversable
 	{
 		yield $this->getTypeString();
 
