@@ -2,9 +2,9 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
+use Traversable;
 use function count;
 
 final class CounterCollection extends AbstractMetricCollection
@@ -39,7 +39,7 @@ final class CounterCollection extends AbstractMetricCollection
 		return count( $this->counters );
 	}
 
-	public function getMetricLines() : Iterator
+	public function getMetricLines() : Traversable
 	{
 		if ( 0 === $this->count() )
 		{

@@ -14,7 +14,7 @@ This implementation supports the following metric types:
 
 * Counter
 * Gauge
-* Historgram (calculated from a collection of gauges)
+* Histogram (calculated from a collection of gauges)
 * Summary (calculated from a collection of gauges)
 
 The library ships with a [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible 

@@ -2,11 +2,11 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Interfaces;
 
-use Iterator;
+use Traversable;
 
 interface ProvidesMetricLines
 {
-	public function getMetricLines() : Iterator;
+	public function getMetricLines() : Traversable;
 
 	public function getMetricsString() : string;
 }

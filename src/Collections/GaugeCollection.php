@@ -2,9 +2,9 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use Traversable;
 use function count;
 use function implode;
 use function iterator_to_array;
@@ -48,7 +48,7 @@ final class GaugeCollection extends AbstractMetricCollection
 		return count( $this->gauges );
 	}
 
-	public function getMetricLines() : Iterator
+	public function getMetricLines() : Traversable
 	{
 		if ( 0 === $this->count() )
 		{

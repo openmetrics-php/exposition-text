@@ -2,11 +2,11 @@
 
 namespace OpenMetricsPhp\Exposition\Text;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\HttpResponse\OutputStream;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Traversable;
 use function is_array;
 
 final class HttpResponse implements ResponseInterface
@@ -61,7 +61,7 @@ final class HttpResponse implements ResponseInterface
 	private static function getAllMetricLines(
 		ProvidesMetricLines $collection,
 		ProvidesMetricLines ...$collections
-	) : Iterator
+	) : Traversable
 	{
 		yield from $collection->getMetricLines();
 		foreach ( $collections as $loopCollection )

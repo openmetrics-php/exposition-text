@@ -2,7 +2,6 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
@@ -10,6 +9,7 @@ use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Count;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Sum;
 use OpenMetricsPhp\Exposition\Text\Metrics\Summary\Quantile;
+use Traversable;
 use const SORT_ASC;
 use const SORT_NUMERIC;
 
@@ -106,7 +106,7 @@ final class Summary implements ProvidesMetricLines
 		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
 	}
 
-	public function getMetricLines() : Iterator
+	public function getMetricLines() : Traversable
 	{
 		yield $this->getTypeString();
 
