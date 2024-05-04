@@ -7,6 +7,7 @@ use OpenMetricsPhp\Exposition\Text\Tests\Traits\EmptyStringProviding;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
 use PHPUnit\Framework\TestCase;
 use Traversable;
+use function array_map;
 
 final class MetricNameTest extends TestCase
 {
@@ -31,9 +32,15 @@ final class MetricNameTest extends TestCase
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid metric name.' );
 	}
 
-	public function invalidMetricNameProvider() : Traversable
+	public static function invalidMetricNameProvider() : Traversable
 	{
-		yield from $this->emptyStringProvider();
+		yield from array_map(
+			static function ( array $record ) : array
+			{
+				return ['metricName' => $record['string']];
+			},
+			self::emptyStringProvider()
+		);
 
 		yield from [
 			[
@@ -68,7 +75,7 @@ final class MetricNameTest extends TestCase
 		$this->assertSame( $expectedString, $metricNameObject->toString() );
 	}
 
-	public function validMetricNameProvider() : array
+	public static function validMetricNameProvider() : array
 	{
 		return [
 			[
@@ -106,7 +113,7 @@ final class MetricNameTest extends TestCase
 		$this->assertSame( $expectedResult, $other->equals( $metricName ) );
 	}
 
-	public function equalityMetricNameProvider() : array
+	public static function equalityMetricNameProvider() : array
 	{
 		return [
 			[

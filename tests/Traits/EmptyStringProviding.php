@@ -4,7 +4,7 @@ namespace OpenMetricsPhp\Exposition\Text\Tests\Traits;
 
 trait EmptyStringProviding
 {
-	public function emptyStringProvider() : array
+	public static function emptyStringProvider() : array
 	{
 		return [
 			[

@@ -13,20 +13,21 @@ final class LabelTest extends TestCase
 	use EmptyStringProviding;
 
 	/**
-	 * @param string $value
+	 * @param string $string
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws \PHPUnit\Framework\AssertionFailedError
 	 *
 	 * @dataProvider emptyStringProvider
 	 */
-	public function testThrowsExceptionForEmptyValue( string $value ) : void
+	#[DataProvider('emptyStringProvider')]
+	public function testThrowsExceptionForEmptyValue( string $string ) : void
 	{
 		$this->expectException( InvalidArgumentException::class );
 		$this->expectExceptionMessage( 'Label value cannot be empty.' );
 
 		/** @noinspection UnusedFunctionResultInspection */
-		Label::fromNameAndValue( 'name', $value );
+		Label::fromNameAndValue( 'name', $string );
 
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for an empty label value.' );
 	}
@@ -50,9 +51,15 @@ final class LabelTest extends TestCase
 		$this->fail( 'Expected an InvalidArgumentException to be thrown for invalid label name.' );
 	}
 
-	public function invalidLabelNameProvider() : Traversable
+	public static function invalidLabelNameProvider() : Traversable
 	{
-		yield from $this->emptyStringProvider();
+		yield from array_map(
+			static function ( array $record ) : array
+			{
+				return ['name' => $record['string']];
+			},
+			self::emptyStringProvider()
+		);
 
 		yield from [
 			[
@@ -96,7 +103,7 @@ final class LabelTest extends TestCase
 		$this->assertSame( $expectedLabelString, $label->getLabelString() );
 	}
 
-	public function labelStringsProvider() : array
+	public static function labelStringsProvider() : array
 	{
 		return [
 			[
@@ -165,7 +172,7 @@ final class LabelTest extends TestCase
 		$this->assertSame( $expectedValue, $label->getValue() );
 	}
 
-	public function labelStringToNameValueProvider() : array
+	public static function labelStringToNameValueProvider() : array
 	{
 		return [
 			[
@@ -215,7 +222,7 @@ final class LabelTest extends TestCase
 		$this->fail( 'Expected exception for invalid label string.' );
 	}
 
-	public function invalidLabelStringProvider() : array
+	public static function invalidLabelStringProvider() : array
 	{
 		return [
 			[

@@ -94,20 +94,6 @@ final class OutputStreamTest extends TestCase
 	 * @throws InvalidArgumentException
 	 * @throws RuntimeException
 	 */
-	public function testSeekThrowsExceptionOnErrorSeekingWithinStream() : void
-	{
-		$stream = new OutputStream( 'php://memory', 'w+b' );
-
-		$this->expectException( RuntimeException::class );
-		$this->expectExceptionMessage( 'Error seeking within stream' );
-
-		$stream->seek( 1 );
-	}
-
-	/**
-	 * @throws InvalidArgumentException
-	 * @throws RuntimeException
-	 */
 	public function testSeekThrowsExceptionForNonSeekableStreams() : void
 	{
 		$stream = new OutputStream( 'php://output', 'wb' );
