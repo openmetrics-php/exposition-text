@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com).
 
+## [0.4.0] - 2024-05-04
+
+* Dropped support for PHP 7.1
+* Added support for PHP 8.3
+* Removed `HttpResponse` class in order to get rid of the dependency to `psr/http-message` — see [#12]
+  * Users must implement or use their own response class to publish the metrics via HTTP
+* Fix deprecation warnings for IteratorAggregate since PHP 8.1 — see [#8]
+* Moved CI to GitHub Actions
+
+[#12]: https://github.com/openmetrics-php/exposition-text/issues/12
+
+[#8]: https://github.com/openmetrics-php/exposition-text/issues/8
+
 ## [0.3.1] - 2019-02-19
 
 ### Fixed
