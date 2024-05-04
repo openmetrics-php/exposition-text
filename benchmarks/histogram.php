@@ -3,7 +3,6 @@
 namespace YourVendor\YourProject;
 
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Metrics\Histogram;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
@@ -25,4 +24,4 @@ echo "\n";
 $summary = Histogram::fromGaugeCollectionWithBounds( $gauges, [10, 100, 500, 900], '_histogram' )
                     ->withHelp( 'Explanation of the histogram' );
 
-HttpResponse::fromMetricCollections( $summary )->respond();
+echo $summary->getMetricsString();
