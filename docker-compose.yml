@@ -96,7 +96,7 @@ services:
     working_dir: /repo
     command: "update -o -v"
     networks:
-      - default
+      - om_et
 
   phpstan:
     image: phpstan/phpstan:latest
@@ -109,8 +109,4 @@ services:
       - om_et
 
 networks:
-  default:
-    name: "gateway"
-    external: true
   om_et:
-    internal: true
