@@ -6,15 +6,15 @@ ARG XDEBUG_VERSION=3.3
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN set -ex  \
-    && apk update && apk upgrade && apk add --no-cache wget pipx
+    && apk update && apk upgrade && apk add --no-cache wget python3 py3-pip
 
 ## Install xdebug
 RUN set -ex  \
     && install-php-extensions xdebug-^${XDEBUG_VERSION}
 
 ## Install prometheus client
-RUN pipx install pip \
-    && pip3 install setuptools prometheus_client forked-path
+RUN set -ex  \
+    && pip3 install --break-system-packages setuptools prometheus_client forked-path
 
 ## Install phpunit
 RUN wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
@@ -23,5 +23,5 @@ RUN wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
 
 # Cleanup
 RUN set -ex  \
-    && apk del wget pipx  \
+    && apk del wget \
     && rm -rf /var/cache/apk/*

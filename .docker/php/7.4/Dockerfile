@@ -18,5 +18,10 @@ RUN wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
 	&& chmod +x phpunit-${PHPUNIT_VERSION}.phar \
 	&& mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit
 
+# set Python alias
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # Cleanup
-RUN rm -rf /var/cache/apk/*
+RUN set -ex  \
+    && apk del wget \
+    && rm -rf /var/cache/apk/*

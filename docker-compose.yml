@@ -1,18 +1,6 @@
 version: "3.7"
 
 services:
-  php71:
-    build:
-      dockerfile: Dockerfile
-      context: .docker/php/7.1
-    container_name: om_et_php71
-    restart: "no"
-    networks:
-      - om_et
-    volumes:
-      - ./:/repo
-    working_dir: /repo
-
   php72:
     build:
       dockerfile: Dockerfile
@@ -111,7 +99,7 @@ services:
       - default
 
   phpstan:
-    image: phpstan/phpstan
+    image: phpstan/phpstan:latest
     container_name: om_et_phpstan
     restart: "no"
     volumes:
