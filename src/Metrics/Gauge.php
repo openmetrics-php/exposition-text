@@ -3,6 +3,7 @@
 namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
+use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsLabels;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMeasuredValue;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
@@ -16,7 +17,7 @@ final class Gauge implements ProvidesSampleString, ProvidesMeasuredValue
 	/** @var int|null */
 	private $timestamp;
 
-	/** @var LabelCollection */
+	/** @var CollectsLabels */
 	private $labels;
 
 	/**
@@ -50,7 +51,7 @@ final class Gauge implements ProvidesSampleString, ProvidesMeasuredValue
 		return $this;
 	}
 
-	public function withLabelCollection( LabelCollection $labels ) : self
+	public function withLabelCollection( CollectsLabels $labels ) : self
 	{
 		foreach ( $labels->getIterator() as $label )
 		{
