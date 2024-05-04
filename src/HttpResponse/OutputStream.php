@@ -43,9 +43,14 @@ final class OutputStream implements StreamInterface
 				E_WARNING
 			);
 
-			$this->resource = fopen( $stream, $mode );
-
-			restore_error_handler();
+			try
+			{
+				$this->resource = fopen( $stream, $mode );
+			}
+			finally
+			{
+				restore_error_handler();
+			}
 
 			return;
 		}
@@ -119,8 +124,8 @@ final class OutputStream implements StreamInterface
 	}
 
 	/**
-	 * @throws RuntimeException
 	 * @return int
+	 * @throws RuntimeException
 	 */
 	public function tell() : int
 	{
@@ -171,8 +176,8 @@ final class OutputStream implements StreamInterface
 	 * @param int $offset
 	 * @param int $whence
 	 *
-	 * @throws RuntimeException
 	 * @return bool
+	 * @throws RuntimeException
 	 */
 	public function seek( $offset, $whence = SEEK_SET ) : bool
 	{
@@ -197,8 +202,8 @@ final class OutputStream implements StreamInterface
 	}
 
 	/**
-	 * @throws RuntimeException
 	 * @return bool
+	 * @throws RuntimeException
 	 */
 	public function rewind() : bool
 	{
@@ -223,8 +228,8 @@ final class OutputStream implements StreamInterface
 	/**
 	 * @param string $string
 	 *
-	 * @throws RuntimeException
 	 * @return bool|int
+	 * @throws RuntimeException
 	 */
 	public function write( $string )
 	{
@@ -262,8 +267,8 @@ final class OutputStream implements StreamInterface
 	/**
 	 * @param int $length
 	 *
-	 * @throws RuntimeException
 	 * @return string
+	 * @throws RuntimeException
 	 */
 	public function read( $length ) : string
 	{
@@ -288,8 +293,8 @@ final class OutputStream implements StreamInterface
 	}
 
 	/**
-	 * @throws RuntimeException
 	 * @return string
+	 * @throws RuntimeException
 	 */
 	public function getContents() : string
 	{
@@ -327,6 +332,6 @@ final class OutputStream implements StreamInterface
 
 		$metadata = stream_get_meta_data( $this->resource );
 
-        return $metadata[ $key ] ?? null;
-    }
+		return $metadata[ $key ] ?? null;
+	}
 }
