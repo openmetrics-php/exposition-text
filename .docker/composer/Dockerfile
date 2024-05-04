@@ -1,8 +1,12 @@
 FROM composer
-ENV XDEBUG_VERSION 2.7.2
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
 # Update system
-RUN apk update && apk upgrade && apk add --no-cache git $PHPIZE_DEPS procps \
-    && pecl install xdebug-${XDEBUG_VERSION} \
-    && docker-php-ext-enable xdebug
+RUN set -ex && apk update && apk upgrade
+
+# Install xdebug
+RUN set -ex && install-php-extensions xdebug-^3.3
+
 # Cleanup
-RUN apk del $PHPIZE_DEPS && rm -rf /var/cache/apk/*
+RUN rm -rf /var/cache/apk/*
