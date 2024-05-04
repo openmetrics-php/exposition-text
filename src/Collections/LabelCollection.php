@@ -12,9 +12,12 @@ use function array_map;
 use function count;
 use function implode;
 
+/**
+ * @implements IteratorAggregate<ProvidesNamedValue>
+ */
 final class LabelCollection implements Countable, IteratorAggregate
 {
-	/** @var array|ProvidesNamedValue[] */
+	/** @var array<ProvidesNamedValue> */
 	private $labels;
 
 	private function __construct()
@@ -36,10 +39,10 @@ final class LabelCollection implements Countable, IteratorAggregate
 	}
 
 	/**
-	 * @param array $labels
+	 * @param array<string, string> $labels
 	 *
-	 * @throws InvalidArgumentException
 	 * @return LabelCollection
+	 * @throws InvalidArgumentException
 	 */
 	public static function fromAssocArray( array $labels ) : self
 	{

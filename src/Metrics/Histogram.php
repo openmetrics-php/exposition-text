@@ -2,6 +2,7 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
+use Iterator;
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
@@ -41,11 +42,11 @@ final class Histogram implements ProvidesMetricLines
 
 	/**
 	 * @param GaugeCollection $collection
-	 * @param array           $bounds
+	 * @param array<float> $bounds
 	 * @param string          $suffix
 	 *
-	 * @throws InvalidArgumentException
 	 * @return Histogram
+	 * @throws InvalidArgumentException
 	 */
 	public static function fromGaugeCollectionWithBounds(
 		GaugeCollection $collection,
@@ -55,10 +56,7 @@ final class Histogram implements ProvidesMetricLines
 	{
 		$histogram = new self( $collection->getMetricName()->withSuffix( $suffix ) );
 
-		foreach ( $histogram->getBucketsForBounds( $collection, $bounds ) as $bucket )
-		{
-			$histogram->buckets[] = $bucket;
-		}
+		$histogram->buckets = iterator_to_array( $histogram->getBucketsForBounds( $collection, $bounds ), true );
 
 		$countMeasurements    = $collection->count();
 		$histogram->buckets[] = InfiniteBucket::new( $countMeasurements );
@@ -70,12 +68,12 @@ final class Histogram implements ProvidesMetricLines
 
 	/**
 	 * @param GaugeCollection $collection
-	 * @param array           $bounds
+	 * @param array<float> $bounds
 	 *
+	 * @return Iterator<ProvidesSampleString>
 	 * @throws InvalidArgumentException
-	 * @return iterable
 	 */
-	private function getBucketsForBounds( GaugeCollection $collection, array $bounds ) : iterable
+	private function getBucketsForBounds( GaugeCollection $collection, array $bounds ) : Iterator
 	{
 		sort( $bounds, SORT_NUMERIC | SORT_ASC );
 

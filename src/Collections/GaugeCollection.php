@@ -33,13 +33,7 @@ final class GaugeCollection extends AbstractMetricCollection
 
 	public function add( Gauge $gauge, Gauge ...$gauges ) : void
 	{
-		$this->gauges[] = $gauge;
-
-		if ( [] !== $gauges )
-		{
-			$this->gauges = array_merge( $this->gauges, $gauges );
-		}
-
+		$this->gauges = array_merge( $this->gauges, [$gauge], $gauges );
 		$this->sorted = false;
 	}
 
@@ -48,6 +42,9 @@ final class GaugeCollection extends AbstractMetricCollection
 		return count( $this->gauges );
 	}
 
+	/**
+	 * @return Traversable<string>
+	 */
 	public function getMetricLines() : Traversable
 	{
 		if ( 0 === $this->count() )

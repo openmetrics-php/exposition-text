@@ -14,7 +14,7 @@ final class HttpResponse implements ResponseInterface
 	/** @var string */
 	private $protocolVersion;
 
-	/** @var array */
+	/** @var array<string, array<string>> */
 	private $headers;
 
 	/** @var int */
@@ -58,6 +58,12 @@ final class HttpResponse implements ResponseInterface
 		return new self( $outputStream );
 	}
 
+	/**
+	 * @param ProvidesMetricLines $collection
+	 * @param ProvidesMetricLines ...$collections
+	 *
+	 * @return Traversable<string>
+	 */
 	private static function getAllMetricLines(
 		ProvidesMetricLines $collection,
 		ProvidesMetricLines ...$collections

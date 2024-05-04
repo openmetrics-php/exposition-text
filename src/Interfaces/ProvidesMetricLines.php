@@ -6,6 +6,9 @@ use Traversable;
 
 interface ProvidesMetricLines
 {
+	/**
+	 * @return Traversable<string>
+	 */
 	public function getMetricLines() : Traversable;
 
 	public function getMetricsString() : string;

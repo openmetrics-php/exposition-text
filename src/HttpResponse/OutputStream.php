@@ -120,7 +120,7 @@ final class OutputStream implements StreamInterface
 
 		$stats = fstat( $this->resource );
 
-		return $stats['size'];
+		return $stats !== false ? $stats['size'] : 0;
 	}
 
 	/**
@@ -314,11 +314,11 @@ final class OutputStream implements StreamInterface
 	}
 
 	/**
-	 * @param null $key
+	 * @param null|string $key
 	 *
 	 * @return array|mixed|null
 	 */
-	public function getMetadata( $key = null )
+	public function getMetadata( ?string $key = null )
 	{
 		if ( !is_resource( $this->resource ) )
 		{
