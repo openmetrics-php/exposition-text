@@ -18,8 +18,32 @@ We accept contributions via pull requests on [GitHub](https://github.com/openmet
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
-## Running tests
+### Install development environment
 
 ```bash
-$ php vendor/bin/phpunit.phar -c build/
+make install
+```
+
+### Run PHPStan
+
+```bash
+make phpstan
+```
+
+### Run PHP-version specific tests
+
+```bash
+make test-php-7.2
+make test-php-7.3
+make test-php-7.4
+make test-php-8.0
+make test-php-8.1
+make test-php-8.2
+make test-php-8.3
+```
+
+### Run all tests
+
+```bash
+make tests
 ```
