@@ -26,26 +26,6 @@
     }
   },
   "require-dev": {
-    "ext-xdebug": "*",
-    "tm/tooly-composer-script": "~1.4",
-    "hollodotme/phpunit-testdox-markdown": "~1.0.0"
-  },
-  "scripts": {
-    "post-install-cmd": "Tooly\\ScriptHandler::installPharTools",
-    "post-update-cmd": "Tooly\\ScriptHandler::installPharTools"
-  },
-  "extra": {
-    "tools": {
-      "phpunit7": {
-        "url": "https://phar.phpunit.de/phpunit-7.phar",
-        "only-dev": true,
-        "replace": true
-      },
-      "phpunit8": {
-        "url": "https://phar.phpunit.de/phpunit-8.phar",
-        "only-dev": true,
-        "replace": true
-      }
-    }
+    "ext-xdebug": "*"
   }
 }
