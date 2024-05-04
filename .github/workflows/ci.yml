@@ -22,8 +22,8 @@ jobs:
       - name: GIT--checkout
         uses: actions/checkout@v4
 
-      - name: Pull docker services
-        run: make install
+      - name: Install tools for static analysis
+        run: make install-static-analysis
 
       - name: Composer validate
         run: make composer-validate

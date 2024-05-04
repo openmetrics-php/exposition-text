@@ -25,6 +25,10 @@ DOCKER_COMPOSE_ISOLATED_RUN_COMMAND = $(DOCKER_COMPOSE_BASE_COMMAND) run --rm --
 install: dcpull dcbuild composer-install
 .PHONY: update
 
+install-static-analysis: dcpull
+	$(DOCKER_COMPOSE_BASE_COMMAND) build composer --pull --parallel
+.PHONY: install-static-analysis
+
 ## Update whole setup
 update: dcpull dcbuild composer-update
 .PHONY: update
