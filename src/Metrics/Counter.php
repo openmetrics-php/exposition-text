@@ -4,6 +4,7 @@ namespace OpenMetricsPhp\Exposition\Text\Metrics;
 
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsLabels;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesSampleString;
 
@@ -15,7 +16,7 @@ final class Counter implements ProvidesSampleString
 	/** @var int|null */
 	private $timestamp;
 
-	/** @var LabelCollection */
+	/** @var CollectsLabels */
 	private $labels;
 
 	/**
@@ -49,8 +50,8 @@ final class Counter implements ProvidesSampleString
 	/**
 	 * @param float $counterValue
 	 *
-	 * @throws InvalidArgumentException
 	 * @return Counter
+	 * @throws InvalidArgumentException
 	 */
 	public static function fromValue( float $counterValue ) : self
 	{
@@ -61,8 +62,8 @@ final class Counter implements ProvidesSampleString
 	 * @param float $counterValue
 	 * @param int   $timestamp
 	 *
-	 * @throws InvalidArgumentException
 	 * @return Counter
+	 * @throws InvalidArgumentException
 	 */
 	public static function fromValueAndTimestamp( float $counterValue, int $timestamp ) : self
 	{
@@ -76,9 +77,9 @@ final class Counter implements ProvidesSampleString
 		return $this;
 	}
 
-	public function withLabelCollection( LabelCollection $labels ) : self
+	public function withLabelCollection( CollectsLabels $labels ) : self
 	{
-		foreach ( $labels->getIterator() as $label )
+		foreach ( $labels as $label )
 		{
 			$this->addLabels( $label );
 		}

@@ -52,7 +52,7 @@ final class LabelCollectionTest extends TestCase
 		$this->assertSame( 0, $collection->count() );
 
 		/** @var ProvidesNamedValue $labelStub */
-		$labelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$labelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 
 		$collection->add( $labelStub );
 
@@ -70,7 +70,7 @@ final class LabelCollectionTest extends TestCase
 
 		$this->assertSame( '', $collection->getCombinedLabelString() );
 
-		$firstLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$firstLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 		$firstLabelStub->method( 'getName' )->willReturn( 'name1' );
 		$firstLabelStub->method( 'getLabelString' )->willReturn( 'name1="value1"' );
 
@@ -79,7 +79,7 @@ final class LabelCollectionTest extends TestCase
 
 		$this->assertSame( '{name1="value1"}', $collection->getCombinedLabelString() );
 
-		$secondLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$secondLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 		$secondLabelStub->method( 'getName' )->willReturn( 'name2' );
 		$secondLabelStub->method( 'getLabelString' )->willReturn( 'name2="value2"' );
 
@@ -97,7 +97,7 @@ final class LabelCollectionTest extends TestCase
 	{
 		$collection = LabelCollection::new();
 
-		$labelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$labelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 		$labelStub->method( 'getName' )->willReturn( 'name1' );
 		$labelStub->method( 'getLabelString' )->willReturn( 'name1="value1"' );
 
@@ -106,7 +106,7 @@ final class LabelCollectionTest extends TestCase
 
 		$this->assertSame( '{name1="value1"}', $collection->getCombinedLabelString() );
 
-		$overwriteLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$overwriteLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 		$overwriteLabelStub->method( 'getName' )->willReturn( 'name1' );
 		$overwriteLabelStub->method( 'getLabelString' )->willReturn( 'name1="value2"' );
 
@@ -126,11 +126,11 @@ final class LabelCollectionTest extends TestCase
 
 		$this->assertSame( '', $collection->getCombinedLabelString() );
 
-		$firstLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$firstLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 		$firstLabelStub->method( 'getName' )->willReturn( 'name1' );
 		$firstLabelStub->method( 'getLabelString' )->willReturn( 'name1="value1"' );
 
-		$secondLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMockForAbstractClass();
+		$secondLabelStub = $this->getMockBuilder( ProvidesNamedValue::class )->getMock();
 		$secondLabelStub->method( 'getName' )->willReturn( 'name2' );
 		$secondLabelStub->method( 'getLabelString' )->willReturn( 'name2="value2"' );
 

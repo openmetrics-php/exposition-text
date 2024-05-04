@@ -2,18 +2,18 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Countable;
-use IteratorAggregate;
 use OpenMetricsPhp\Exposition\Text\Exceptions\InvalidArgumentException;
+use OpenMetricsPhp\Exposition\Text\Interfaces\CollectsLabels;
 use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesNamedValue;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
+use Traversable;
 use function array_map;
 use function count;
 use function implode;
 
-final class LabelCollection implements Countable, IteratorAggregate
+final class LabelCollection implements CollectsLabels
 {
-	/** @var array|ProvidesNamedValue[] */
+	/** @var array<ProvidesNamedValue> */
 	private $labels;
 
 	private function __construct()
@@ -35,10 +35,10 @@ final class LabelCollection implements Countable, IteratorAggregate
 	}
 
 	/**
-	 * @param array $labels
+	 * @param array<string, string> $labels
 	 *
-	 * @throws InvalidArgumentException
 	 * @return LabelCollection
+	 * @throws InvalidArgumentException
 	 */
 	public static function fromAssocArray( array $labels ) : self
 	{
@@ -62,7 +62,7 @@ final class LabelCollection implements Countable, IteratorAggregate
 		}
 	}
 
-	public function getIterator() : iterable
+	public function getIterator() : Traversable
 	{
 		yield from $this->labels;
 	}
@@ -80,7 +80,7 @@ final class LabelCollection implements Countable, IteratorAggregate
 		}
 
 		$labelStrings = array_map(
-			function ( ProvidesNamedValue $label )
+			static function ( ProvidesNamedValue $label )
 			{
 				return $label->getLabelString();
 			},

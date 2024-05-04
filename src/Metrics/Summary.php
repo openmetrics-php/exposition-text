@@ -10,6 +10,8 @@ use OpenMetricsPhp\Exposition\Text\Interfaces\ProvidesMetricLines;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Count;
 use OpenMetricsPhp\Exposition\Text\Metrics\Aggregations\Sum;
 use OpenMetricsPhp\Exposition\Text\Metrics\Summary\Quantile;
+use Traversable;
+use function iterator_to_array;
 use const SORT_ASC;
 use const SORT_NUMERIC;
 
@@ -24,7 +26,7 @@ final class Summary implements ProvidesMetricLines
 	/** @var string */
 	private $metricType;
 
-	/** @var array */
+	/** @var array<Quantile|Sum|Count> */
 	private $quantiles;
 
 	private function __construct( NamesMetric $metricName )
@@ -37,11 +39,11 @@ final class Summary implements ProvidesMetricLines
 
 	/**
 	 * @param GaugeCollection $collection
-	 * @param array           $quantiles
+	 * @param array<float> $quantiles
 	 * @param string          $suffix
 	 *
-	 * @throws InvalidArgumentException
 	 * @return Summary
+	 * @throws InvalidArgumentException
 	 */
 	public static function fromGaugeCollectionWithQuantiles(
 		GaugeCollection $collection,
@@ -49,12 +51,8 @@ final class Summary implements ProvidesMetricLines
 		string $suffix = ''
 	) : self
 	{
-		$summary = new self( $collection->getMetricName()->withSuffix( $suffix ) );
-
-		foreach ( $summary->getQuantiles( $collection, $quantiles ) as $quantile )
-		{
-			$summary->quantiles[] = $quantile;
-		}
+		$summary            = new self( $collection->getMetricName()->withSuffix( $suffix ) );
+		$summary->quantiles = iterator_to_array( $summary->getQuantiles( $collection, $quantiles ), true );
 
 		$summary->quantiles[] = Sum::new( $collection->sumMeasuredValues() );
 		$summary->quantiles[] = Count::new( $collection->count() );
@@ -64,12 +62,12 @@ final class Summary implements ProvidesMetricLines
 
 	/**
 	 * @param GaugeCollection $collection
-	 * @param array           $quantiles
+	 * @param array<float> $quantiles
 	 *
+	 * @return Iterator<Quantile>
 	 * @throws InvalidArgumentException
-	 * @return iterable
 	 */
-	private function getQuantiles( GaugeCollection $collection, array $quantiles ) : iterable
+	private function getQuantiles( GaugeCollection $collection, array $quantiles ) : Iterator
 	{
 		sort( $quantiles, SORT_NUMERIC | SORT_ASC );
 
@@ -106,7 +104,7 @@ final class Summary implements ProvidesMetricLines
 		return sprintf( '# HELP %s %s', $this->metricName->toString(), $this->help );
 	}
 
-	public function getMetricLines() : Iterator
+	public function getMetricLines() : Traversable
 	{
 		yield $this->getTypeString();
 

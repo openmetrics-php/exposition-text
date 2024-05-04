@@ -2,19 +2,19 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
+use Traversable;
 use function count;
 
 final class CounterCollection extends AbstractMetricCollection
 {
-	/** @var array|Counter[] */
+	/** @var array<Counter> */
 	private $counters = [];
 
 	public static function withMetricName( NamesMetric $metricName ) : self
 	{
-		return new static( $metricName, 'counter' );
+		return new self( $metricName, 'counter' );
 	}
 
 	public static function fromCounters( NamesMetric $metricName, Counter $counter, Counter ...$counters ) : self
@@ -27,11 +27,7 @@ final class CounterCollection extends AbstractMetricCollection
 
 	public function add( Counter $counter, Counter ...$counters ) : void
 	{
-		$this->counters[] = $counter;
-		if ( [] !== $counters )
-		{
-			$this->counters = array_merge( $this->counters, $counters );
-		}
+		$this->counters = array_merge( $this->counters, [$counter], $counters );
 	}
 
 	public function count() : int
@@ -39,7 +35,10 @@ final class CounterCollection extends AbstractMetricCollection
 		return count( $this->counters );
 	}
 
-	public function getMetricLines() : Iterator
+	/**
+	 * @return Traversable<string>
+	 */
+	public function getMetricLines() : Traversable
 	{
 		if ( 0 === $this->count() )
 		{

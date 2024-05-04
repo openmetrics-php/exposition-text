@@ -4,7 +4,6 @@ namespace YourVendor\YourProject;
 
 use OpenMetricsPhp\Exposition\Text\Collections\GaugeCollection;
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
@@ -42,4 +41,4 @@ $gauges->add(
 	Gauge::fromValueAndTimestamp( 23.4, time() )->withLabelCollection( $labels )
 );
 
-HttpResponse::fromMetricCollections( $gauges )->respond();
+echo $gauges->getMetricsString();

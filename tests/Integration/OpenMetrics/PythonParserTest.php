@@ -59,7 +59,7 @@ final class PythonParserTest extends TestCase
 	private function assertParsedMetricOutput( string $expectedParserOutput, ProvidesMetricLines $metrics ) : void
 	{
 		$filename = tempnam( sys_get_temp_dir(), 'PythonParserTest_' );
-		$command  = sprintf( 'python %s/parseFile.py %s', __DIR__, $filename );
+		$command = sprintf( 'cat "%s" | python %s/parseFile.py', $filename, __DIR__ );
 
 		file_put_contents( $filename, $metrics->getMetricsString() . "\n# EOF" );
 

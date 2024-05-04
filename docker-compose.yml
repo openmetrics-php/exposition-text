@@ -1,18 +1,6 @@
 version: "3.7"
 
 services:
-  php71:
-    build:
-      dockerfile: Dockerfile
-      context: .docker/php/7.1
-    container_name: om_et_php71
-    restart: "no"
-    networks:
-      - om_et
-    volumes:
-      - ./:/repo
-    working_dir: /repo
-
   php72:
     build:
       dockerfile: Dockerfile
@@ -37,6 +25,66 @@ services:
       - ./:/repo
     working_dir: /repo
 
+  php74:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/7.4
+    container_name: om_et_php74
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  php80:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/8.0
+    container_name: om_et_php8.0
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  php81:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/8.1
+    container_name: om_et_php8.1
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  php82:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/8.2
+    container_name: om_et_php8.2
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
+  php83:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/8.3
+    container_name: om_et_php8.3
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
   composer:
     build:
       dockerfile: Dockerfile
@@ -48,22 +96,17 @@ services:
     working_dir: /repo
     command: "update -o -v"
     networks:
-      - default
+      - om_et
 
   phpstan:
-    image: phpstan/phpstan
+    image: phpstan/phpstan:latest
     container_name: om_et_phpstan
     restart: "no"
     volumes:
       - ./:/repo
     working_dir: /repo
-    command: "analyze --level 5 src/"
     networks:
       - om_et
 
 networks:
-  default:
-    external:
-      name: "gateway"
   om_et:
-    internal: true

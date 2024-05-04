@@ -2,9 +2,9 @@
 
 namespace OpenMetricsPhp\Exposition\Text\Collections;
 
-use Iterator;
 use OpenMetricsPhp\Exposition\Text\Interfaces\NamesMetric;
 use OpenMetricsPhp\Exposition\Text\Metrics\Gauge;
+use Traversable;
 use function count;
 use function implode;
 use function iterator_to_array;
@@ -33,13 +33,7 @@ final class GaugeCollection extends AbstractMetricCollection
 
 	public function add( Gauge $gauge, Gauge ...$gauges ) : void
 	{
-		$this->gauges[] = $gauge;
-
-		if ( [] !== $gauges )
-		{
-			$this->gauges = array_merge( $this->gauges, $gauges );
-		}
-
+		$this->gauges = array_merge( $this->gauges, [$gauge], $gauges );
 		$this->sorted = false;
 	}
 
@@ -48,7 +42,10 @@ final class GaugeCollection extends AbstractMetricCollection
 		return count( $this->gauges );
 	}
 
-	public function getMetricLines() : Iterator
+	/**
+	 * @return Traversable<string>
+	 */
+	public function getMetricLines() : Traversable
 	{
 		if ( 0 === $this->count() )
 		{
@@ -110,7 +107,7 @@ final class GaugeCollection extends AbstractMetricCollection
 
 		usort(
 			$this->gauges,
-			function ( Gauge $a, Gauge $b )
+			static function ( Gauge $a, Gauge $b )
 			{
 				return $a->getMeasuredValue() <=> $b->getMeasuredValue();
 			}

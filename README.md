@@ -1,8 +1,4 @@
-[![CircleCI](https://circleci.com/gh/openmetrics-php/exposition-text.svg?style=svg)](https://circleci.com/gh/openmetrics-php/exposition-text)
-[![Latest Stable Version](https://poser.pugx.org/openmetrics-php/exposition-text/v/stable)](https://packagist.org/packages/openmetrics-php/exposition-text) 
-[![Total Downloads](https://poser.pugx.org/openmetrics-php/exposition-text/downloads)](https://packagist.org/packages/openmetrics-php/exposition-text) 
-[![codecov](https://codecov.io/gh/openmetrics-php/exposition-text/branch/master/graph/badge.svg)](https://codecov.io/gh/openmetrics-php/exposition-text)
-[![phpstan enabled](https://img.shields.io/badge/phpstan-enabled-green.svg)](https://github.com/phpstan/phpstan)
+[![CI and release](https://github.com/openmetrics-php/exposition-text/actions/workflows/ci.yml/badge.svg)](https://github.com/openmetrics-php/exposition-text/actions/workflows/ci.yml)
 
 # OpenMetrics-PHP Exposition Text
 
@@ -24,9 +20,15 @@ into existing frameworks / code bases.
 **Please note:** that the following content-type header is used for the HTTP response by default 
 `Content-Type: application/openmetrics-text; charset=utf-8` as [discussed here](https://github.com/OpenObservability/OpenMetrics/issues/79).
 
-## Requirements
+## Supported PHP Versions
 
-* PHP >= 7.1
+* 7.2
+* 7.3
+* 7.4
+* 8.0
+* 8.1
+* 8.2
+* 8.3
 
 ## Installation
 
@@ -261,7 +263,6 @@ your_metric_name_summary_count 10
 
 ## Contributing
 
-Contributions are welcome and will be fully credited. 
+Contributions are welcome and will be fully credited.
 Please see the [contribution guide](.github/CONTRIBUTING.md) for details.
-
 

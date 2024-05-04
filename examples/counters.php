@@ -4,7 +4,6 @@ namespace YourVendor\YourProject;
 
 use OpenMetricsPhp\Exposition\Text\Collections\CounterCollection;
 use OpenMetricsPhp\Exposition\Text\Collections\LabelCollection;
-use OpenMetricsPhp\Exposition\Text\HttpResponse;
 use OpenMetricsPhp\Exposition\Text\Metrics\Counter;
 use OpenMetricsPhp\Exposition\Text\Types\Label;
 use OpenMetricsPhp\Exposition\Text\Types\MetricName;
@@ -45,4 +44,4 @@ $counters->add(
 	Counter::fromValueAndTimestamp( 8, time() )->withLabelCollection( $labels )
 );
 
-HttpResponse::fromMetricCollections( $counters )->respond();
+echo $counters->getMetricsString();

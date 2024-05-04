@@ -28,8 +28,8 @@ abstract class AbstractMetricCollection implements CollectsMetrics
 	 *
 	 * @return static
 	 */
-	public function withHelp( string $helpText )
-	{
+	public function withHelp( string $helpText ) : AbstractMetricCollection
+    {
 		$this->setHelp( $helpText );
 
 		return $this;

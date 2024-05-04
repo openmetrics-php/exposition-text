@@ -1,6 +1,5 @@
 /.idea/
-/.vagrant/
 /vendor/
-/build/logs/
-/build/.phpunit.result.cache
+/tests/.phpunit.cache
+/tests/.phpunit.result.cache
 /composer.lock
