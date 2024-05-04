@@ -28,6 +28,9 @@ jobs:
       - name: Composer validate
         run: make composer-validate
 
+      - name: Composer validate
+        run: make composer-install
+
       - name: Run PHPStan
         run: make phpstan
 
