@@ -13,10 +13,6 @@ This implementation supports the following metric types:
 * Histogram (calculated from a collection of gauges)
 * Summary (calculated from a collection of gauges)
 
-The library ships with a [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible 
-[HttpResponse](./src/HttpResponse.php) for easy integration 
-into existing frameworks / code bases. 
-
 **Please note:** that the following content-type header is used for the HTTP response by default 
 `Content-Type: application/openmetrics-text; charset=utf-8` as [discussed here](https://github.com/OpenObservability/OpenMetrics/issues/79).
 
@@ -88,7 +84,7 @@ $counters->add(
 	Counter::fromValueAndTimestamp(8, time())->withLabelCollection($labels)
 );
 
-HttpResponse::fromMetricCollections($counters)->respond();
+echo $counters->getMetricsString();
 ```
 
 #### Prints
@@ -153,7 +149,7 @@ $gauges->add(
 	Gauge::fromValueAndTimestamp(23.4, time())->withLabelCollection($labels)
 );
 
-HttpResponse::fromMetricCollections($gauges)->respond();
+echo $gauges->getMetricsString();
 ```
 
 #### Prints
@@ -199,7 +195,7 @@ foreach ( $values as $value )
 $histogram = Histogram::fromGaugeCollectionWithBounds( $gauges, [0.13, 30, 46, 78.9, 90], '_histogram' )
                       ->withHelp( 'Explanation of the histogram' );
 
-HttpResponse::fromMetricCollections( $histogram )->respond();
+echo $histogram->getMetricsString();
 ```
 
 #### Prints
@@ -245,7 +241,7 @@ foreach ( $values as $value )
 $summary = Summary::fromGaugeCollectionWithQuantiles( $gauges, [0.3, 0.5, 0.75, 0.9], '_summary' )
                   ->withHelp( 'Explanation of the summary' );
 
-HttpResponse::fromMetricCollections( $summary )->respond();
+echo $summary->getMetricsString();
 ```
 
 #### Prints
