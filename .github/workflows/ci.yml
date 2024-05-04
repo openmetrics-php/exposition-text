@@ -33,16 +33,6 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php:
-          - "7.2"
-          - "7.3"
-          - "7.4"
-          - "8.0"
-          - "8.1"
-          - "8.2"
-          - "8.3"
     steps:
       - name: GIT--checkout
         uses: actions/checkout@v4
@@ -50,8 +40,8 @@ jobs:
       - name: Install environment
         run: make install
 
-      - name: Run unit tests on PHP ${{ matrix.php }}
-        run: make -s "test-php-${{ matrix.php }}"
+      - name: Run all tests
+        run: make tests
         env:
           COMPOSE_INTERACTIVE_NO_CLI: 1
 

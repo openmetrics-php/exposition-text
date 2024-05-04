@@ -26,7 +26,7 @@ install: dcpull dcbuild composer-install
 .PHONY: update
 
 install-static-analysis: dcpull
-	$(DOCKER_COMPOSE_BASE_COMMAND) build composer --pull --parallel
+	$(DOCKER_COMPOSE_BASE_COMMAND) build --pull --parallel composer
 .PHONY: install-static-analysis
 
 ## Update whole setup
