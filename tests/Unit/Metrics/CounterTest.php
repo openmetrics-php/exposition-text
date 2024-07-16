@@ -68,7 +68,7 @@ final class CounterTest extends TestCase
 	{
 		$expectedSampleStringWithoutLabels   = '_total 1.000000';
 		$expectedSampleStringWithOneLabel    = '_total{unit_test="123"} 1.000000';
-		$expectedSampleStringWithThreeLabels = '_total{unit_test="123", test_unit="456", label_last="789"} 1.000000';
+		$expectedSampleStringWithThreeLabels = '_total{unit_test="123",test_unit="456",label_last="789"} 1.000000';
 
 		$gauge = Counter::fromValue( 1 );
 
@@ -99,7 +99,7 @@ final class CounterTest extends TestCase
 			                Label::fromNameAndValue( 'test', 'unit' )
 		                );
 
-		$expectedSampleString = '_total{unit="test", test="unit"} 12.300000';
+		$expectedSampleString = '_total{unit="test",test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}
@@ -121,7 +121,7 @@ final class CounterTest extends TestCase
 			                )
 		                );
 
-		$expectedSampleString = '_total{unit="test", test="unit"} 12.300000';
+		$expectedSampleString = '_total{unit="test",test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}

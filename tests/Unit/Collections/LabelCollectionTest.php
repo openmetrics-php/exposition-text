@@ -86,7 +86,7 @@ final class LabelCollectionTest extends TestCase
 		/** @var ProvidesNamedValue $secondLabelStub */
 		$collection->add( $secondLabelStub );
 
-		$this->assertSame( '{name1="value1", name2="value2"}', $collection->getCombinedLabelString() );
+		$this->assertSame( '{name1="value1",name2="value2"}', $collection->getCombinedLabelString() );
 	}
 
 	/**
@@ -139,7 +139,7 @@ final class LabelCollectionTest extends TestCase
 		$collection->add( $firstLabelStub, $secondLabelStub );
 
 		$this->assertCount( 2, $collection );
-		$this->assertSame( '{name1="value1", name2="value2"}', $collection->getCombinedLabelString() );
+		$this->assertSame( '{name1="value1",name2="value2"}', $collection->getCombinedLabelString() );
 	}
 
 	/**
@@ -158,7 +158,7 @@ final class LabelCollectionTest extends TestCase
 
 		$this->assertCount( 2, $labels );
 
-		$expectedLabelString = '{unit="test", test="unit"}';
+		$expectedLabelString = '{unit="test",test="unit"}';
 
 		$this->assertSame( $expectedLabelString, $labels->getCombinedLabelString() );
 	}
