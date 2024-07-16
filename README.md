@@ -99,7 +99,7 @@ your_metric_name_total{label2="label_value"} 4.000000 1541323663
 your_metric_name_total 5.000000
 your_metric_name_total 6.000000 1541323663
 your_metric_name_total{label3="label_value"} 7.000000
-your_metric_name_total{label4="label_value", label5="label_value"} 8.000000 1541323663
+your_metric_name_total{label4="label_value",label5="label_value"} 8.000000 1541323663
 ```
 
 ### Create a collection of gauges and respond it
@@ -164,7 +164,7 @@ your_metric_name{label2="label_value"} 0.120000 1541323799
 your_metric_name 3.450000
 your_metric_name 67.800000 1541323799
 your_metric_name{label3="label_value"} 90.100000
-your_metric_name{label4="label_value", label5="label_value"} 23.400000 1541323799
+your_metric_name{label4="label_value",label5="label_value"} 23.400000 1541323799
 ```
 
 ### Create a histogram out of a gauge collection and respond it
