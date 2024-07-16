@@ -65,7 +65,7 @@ final class GaugeTest extends TestCase
 	{
 		$expectedSampleStringWithoutLabels   = ' 1.230000';
 		$expectedSampleStringWithOneLabel    = '{unit_test="123"} 1.230000';
-		$expectedSampleStringWithThreeLabels = '{unit_test="123", test_unit="456", label_last="789"} 1.230000';
+		$expectedSampleStringWithThreeLabels = '{unit_test="123",test_unit="456",label_last="789"} 1.230000';
 
 		$gauge = Gauge::fromValue( 1.23 );
 
@@ -97,7 +97,7 @@ final class GaugeTest extends TestCase
 			Label::fromNameAndValue( 'test', 'unit' )
 		);
 
-		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
+		$expectedSampleString = '{unit="test",test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}
@@ -120,7 +120,7 @@ final class GaugeTest extends TestCase
 			)
 		);
 
-		$expectedSampleString = '{unit="test", test="unit"} 12.300000';
+		$expectedSampleString = '{unit="test",test="unit"} 12.300000';
 
 		$this->assertSame( $expectedSampleString, $gauge->getSampleString() );
 	}

@@ -78,7 +78,7 @@ final class PythonParserTest extends TestCase
 	public function testCanParseGaugeMetricsWithPythonParser() : void
 	{
 		$expectedParserOutput = "Name: gauge Labels: {'foo': 'bar'} Value: 1.01 Timestamp: 1234567.000000000\n"
-		                        . "Name: gauge Labels: {'bar': 'foo'} Value: 2.0202 Timestamp: 1234567.000000000\n"
+		                        . "Name: gauge Labels: {'foobar': 'foo', 'bar': 'foo'} Value: 2.0202 Timestamp: 1234567.000000000\n"
 		                        . "Name: gauge Labels: {} Value: 3.0302 Timestamp: None\n";
 
 		$collection = GaugeCollection::fromGauges(
@@ -86,9 +86,9 @@ final class PythonParserTest extends TestCase
 			Gauge::fromValueAndTimestamp( 1.01, 1234567 )->withLabels(
 				Label::fromNameAndValue( 'foo', 'bar' )
 			),
-			Gauge::fromValueAndTimestamp( 2.0202, 1234567 )->withLabels(
-				Label::fromNameAndValue( 'bar', 'foo' )
-			),
+			Gauge::fromValueAndTimestamp( 2.0202, 1234567 )
+            ->withLabels(Label::fromNameAndValue( 'foobar', 'foo' ))
+            ->withLabels(Label::fromNameAndValue( 'bar', 'foo' ) ),
 			Gauge::fromValue( 3.0302 )
 		);
 

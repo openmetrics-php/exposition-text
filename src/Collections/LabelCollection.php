@@ -87,6 +87,6 @@ final class LabelCollection implements CollectsLabels
 			$this->labels
 		);
 
-		return '{' . implode( ', ', $labelStrings ) . '}';
+		return '{' . implode( ',', $labelStrings ) . '}';
 	}
 }
