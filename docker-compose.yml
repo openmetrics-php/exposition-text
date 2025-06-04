@@ -85,6 +85,18 @@ services:
       - ./:/repo
     working_dir: /repo
 
+  php84:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/php/8.4
+    container_name: om_et_php8.4
+    restart: "no"
+    networks:
+      - om_et
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+
   composer:
     build:
       dockerfile: Dockerfile
