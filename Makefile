@@ -127,3 +127,10 @@ test-php-8.3: dcdown
 	$(DOCKER_COMPOSE_ISOLATED_RUN_COMMAND) php83 php $(PHP_OPTIONS) /usr/local/bin/phpunit -c tests/phpunit-10.xml --testsuite=Unit $(PHPUNIT_OPTIONS)
 	$(DOCKER_COMPOSE_ISOLATED_RUN_COMMAND) php83 php $(PHP_OPTIONS) /usr/local/bin/phpunit -c tests/phpunit-10.xml --testsuite=Integration $(PHPUNIT_OPTIONS)
 .PHONY: test-php-8.3
+
+## Run test on PHP 8.4
+test-php-8.4: dcdown
+	printf "\n\033[33mRun Tests on PHP 8.4\033[0m\n"
+	$(DOCKER_COMPOSE_ISOLATED_RUN_COMMAND) php84 php $(PHP_OPTIONS) /usr/local/bin/phpunit -c tests/phpunit-10.xml --testsuite=Unit $(PHPUNIT_OPTIONS)
+	$(DOCKER_COMPOSE_ISOLATED_RUN_COMMAND) php84 php $(PHP_OPTIONS) /usr/local/bin/phpunit -c tests/phpunit-10.xml --testsuite=Integration $(PHPUNIT_OPTIONS)
+.PHONY: test-php-8.4
