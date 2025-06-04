@@ -73,7 +73,7 @@ phpstan:
 .PHONY: phpstan
 
 ## Run all tests on all PHP versions
-tests: composer-validate phpstan test-php-7.2 test-php-7.3 test-php-7.4 test-php-8.0 test-php-8.1 test-php-8.2
+tests: composer-validate phpstan test-php-7.2 test-php-7.3 test-php-7.4 test-php-8.0 test-php-8.1 test-php-8.2 test-php-8.3 test-php-8.4
 .PHONY: tests
 
 PHP_OPTIONS = -d error_reporting=-1 -dmemory_limit=-1 -d xdebug.mode=coverage
