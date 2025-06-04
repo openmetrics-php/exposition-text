@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com).
 
+## [0.4.2] - 2025-06-04
+
+[0.4.2]: https://github.com/openmetrics-php/exposition-text/compare/v0.4.1...v0.4.2
+
+### Added
+
+* Support for PHP 8.4 — see [#16]
+
+[#16]: https://github.com/openmetrics-php/exposition-text/issues/16
+
 ## [0.4.1] - 2024-07-16
 
 [0.4.1]: https://github.com/openmetrics-php/exposition-text/compare/v0.4.0...v0.4.1
